@@ -3,7 +3,7 @@ services:
 
 before_script:
   - sleep 15
-  - mongo io2 --eval 'db.addUser("travis", "test");'
+  - mongo $DB_NAME --eval "db.addUser('$DB_USER', '$DB_PASS');"
 
 script:
  - echo "dzialam"; mongo --version
