@@ -1,3 +1,6 @@
+services:
+  - mongodb
+
 script:
- - echo "dzialam"
+ - echo "dzialam"; mongo --version
 
