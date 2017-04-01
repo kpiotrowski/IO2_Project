@@ -1,6 +1,10 @@
 services:
   - mongodb
 
+before_script:
+  - sleep 15
+  - mongo io2 --eval 'db.addUser("travis", "test");'
+
 script:
  - echo "dzialam"; mongo --version
 
