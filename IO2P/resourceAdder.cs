@@ -18,9 +18,6 @@ namespace IO2P
     {
         private String host = "146.185.128.224";
         private int port = 27017 ;
-        private String strDatabase = "io2";
-        private String strDBUser = "io2";
-        private String strDBPass = "sfd9879IjgkDslkhgdgl98sdfG9sdUFSD98sdf9wfdgHG78vgsf809few0";
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
@@ -32,7 +29,7 @@ namespace IO2P
             if (!saveResource(filename, defaultDisk, "", "")) return false; 
             if (!addDatabaseEntry(filename, defaultDisk))
             {
-                if (!removeResource(filename, defaultDisk, "", "")) ;
+                if (!removeResource(filename, defaultDisk, Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass")))
                 {
                     //Zapisz do logu - nieusunięty plik na zdalnym dysku
                 }
@@ -99,14 +96,14 @@ namespace IO2P
         /// <returns>Informacja o sukceie/porażce dodawania do bazy danych</returns>
         public bool addDatabaseEntry(String filename, String diskname)
         {
-            var credential = MongoCredential.CreateMongoCRCredential(strDatabase, strDBUser, strDBPass);
+            var credential = MongoCredential.CreateMongoCRCredential(Environment.ExpandEnvironmentVariables("DB_NAME"), Environment.ExpandEnvironmentVariables("DB_USER"), Environment.ExpandEnvironmentVariables("DB_PASS"));
             var settings = new MongoClientSettings
             {
                 Credentials = new[] { credential },
                 Server = new MongoServerAddress(host, port)
             };
             var client = new MongoClient(settings);
-            var db = client.GetDatabase(strDatabase);
+            var db = client.GetDatabase(Environment.ExpandEnvironmentVariables("DB_NAME"));
             /*using (var stream = new StreamWriter(filename + ".json"))
             using (var writer = new MongoDB.Bson.IO.JsonWriter(stream))
             {
