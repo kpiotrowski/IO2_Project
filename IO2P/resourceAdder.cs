@@ -16,8 +16,6 @@ namespace IO2P
 {
     class resourceAdder
     {
-        private String host = "146.185.128.224";
-        private int port = 27017 ;
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
@@ -100,7 +98,7 @@ namespace IO2P
             var settings = new MongoClientSettings
             {
                 Credentials = new[] { credential },
-                Server = new MongoServerAddress(host, port)
+                Server = new MongoServerAddress(Environment.ExpandEnvironmentVariables("DB_HOST"), Int32.Parse(Environment.ExpandEnvironmentVariables("DB_PORT")))
             };
             var client = new MongoClient(settings);
             var db = client.GetDatabase(Environment.ExpandEnvironmentVariables("DB_NAME"));
