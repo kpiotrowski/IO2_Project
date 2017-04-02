@@ -8,14 +8,18 @@ using MongoDB.Driver.Linq;
 using MongoDB.Driver;
 using System.Net;
 using System.IO;
+using System.Net.Sockets;
+using System.Net.Http;
+using System.Web;
 
 namespace IO2P
 {
     class resourceAdder
     {
-        private String strDatabase = "";
-        private String strDBUser = "";
-        private String strDBPass = "";
+        private String host = "146.185.128.224:27017"
+        private String strDatabase = "io2";
+        private String strDBUser = "io2";
+        private String strDBPass = "sfd9879IjgkDslkhgdgl98sdfG9sdUFSD98sdf9wfdgHG78vgsf809few0";
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
@@ -24,7 +28,6 @@ namespace IO2P
         public bool addResource(String filename)
         {
             String defaultDisk = "";
-            if (!downloadResource(filename))
             if (!saveResource(filename, defaultDisk, "", "")) return false; 
             if (!addDatabaseEntry(filename, defaultDisk))
             {
@@ -38,12 +41,17 @@ namespace IO2P
         }
 
         /// <summary>
-        /// Pobiera obraz/wideo od użytkownika i zapisuje lokalnie
+        /// Zapisuje lokalnie pobrany od użytkownika plik
         /// </summary>
         /// <param name="filename">Nazwa, pod którą plik jest zapisywany</param>
-        public bool downloadResource(string filename)
+        /// <param name="data">Dane pliku</param>
+        public bool downloadResource(string filename, byte[] data)
         {
-
+            FileStream stream = File.Create(filename);
+            stream.Close();
+            stream = File.OpenWrite(filename);
+            stream.Write(data, 0, data.Length);
+            stream.Close();
             return false;
         }
 
@@ -109,6 +117,18 @@ namespace IO2P
         public bool removeResource(String filename, String diskname, String username, String password)
         {
             return true;
+        }
+
+        /// <summary>
+        /// Zarządza obsługą POST'a do /newfile
+        /// </summary>
+        /// <param name="request">Zawartość żądania</param>
+        public void handlePost(Nancy.Request request)
+        {
+            byte[] buffer = new byte[request.Body.Length];
+            request.Body.Read(buffer, 0, buffer.Length);
+            downloadResource("test", buffer);
+            addResource("test");
         }
     }
 }
