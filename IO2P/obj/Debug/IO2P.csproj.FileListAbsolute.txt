@@ -1,0 +1,2 @@
+D:\Users\Tomek\Documents\Visual Studio 2015\Projects\IO2P\IO2P\bin\Debug\IO2P.exe.config
+D:\Users\Tomek\Documents\Visual Studio 2015\Projects\IO2P\IO2P\obj\Debug\IO2P.csprojResolveAssemblyReference.cache
