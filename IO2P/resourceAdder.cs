@@ -16,7 +16,8 @@ namespace IO2P
 {
     class resourceAdder
     {
-        private String host = "146.185.128.224:27017"
+        private String host = "146.185.128.224";
+        private int port = 27017 ;
         private String strDatabase = "io2";
         private String strDBUser = "io2";
         private String strDBPass = "sfd9879IjgkDslkhgdgl98sdfG9sdUFSD98sdf9wfdgHG78vgsf809few0";
@@ -98,11 +99,28 @@ namespace IO2P
         /// <returns>Informacja o sukceie/porażce dodawania do bazy danych</returns>
         public bool addDatabaseEntry(String filename, String diskname)
         {
-            var credential = MongoCredential.CreateCredential(strDatabase, strDBUser, strDBPass);
-            var settings = new MongoClientSettings {ReplicaSetName = "rs0" };
+            var credential = MongoCredential.CreateMongoCRCredential(strDatabase, strDBUser, strDBPass);
+            var settings = new MongoClientSettings
+            {
+                Credentials = new[] { credential },
+                Server = new MongoServerAddress(host, port)
+            };
             var client = new MongoClient(settings);
             var db = client.GetDatabase(strDatabase);
-
+            /*using (var stream = new StreamWriter(filename + ".json"))
+            using (var writer = new MongoDB.Bson.IO.JsonWriter(stream))
+            {
+                writer.WriteStartDocument();
+                writer.WriteName("Nazwa pliku");
+                writer.WriteString(filename.Split('.')[0]);
+                writer.WriteName("Typ pliku");
+                writer.WriteString(filename.Split('.')[1]);
+                writer.WriteName("Lokalizacja pliku");
+                writer.WriteString(diskname + "/" + filename);
+                writer.WriteEndDocument();
+            }*/
+           // db.CreateCollection("fileEntries");
+            db.GetCollection<fileEntry>("fileEntries").InsertOne(new fileEntry(filename, diskname));
             return false;
         }
 
@@ -123,12 +141,13 @@ namespace IO2P
         /// Zarządza obsługą POST'a do /newfile
         /// </summary>
         /// <param name="request">Zawartość żądania</param>
-        public void handlePost(Nancy.Request request)
+        public bool handlePost(Nancy.Request request)
         {
             byte[] buffer = new byte[request.Body.Length];
             request.Body.Read(buffer, 0, buffer.Length);
             downloadResource("test", buffer);
             addResource("test");
+            return false;
         }
     }
 }

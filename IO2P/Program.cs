@@ -16,7 +16,7 @@ namespace IO2P
         public Program()
         {
             Get["/"] = _ => "Test";
-            Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request)
+            Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
         }
     }
 }
