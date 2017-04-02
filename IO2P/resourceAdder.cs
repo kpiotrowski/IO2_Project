@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using MongoDB;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver;
+using System.Net;
+using System.IO;
 
 namespace IO2P
 {
@@ -17,31 +19,67 @@ namespace IO2P
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
-        /// <param name="resource">Obraz/wideo nadesłany przez użytkownika</param>
         /// <param name="filename">Nazwa pod jaką obraz/wideo ma zostać zapisany</param>
         /// <returns>Informacja czy zapis przebiegł pomyślnie</returns>
-        public bool addResource(Object resource, String filename)
+        public bool addResource(String filename)
         {
             String defaultDisk = "";
-            if (!saveResource(resource, filename, defaultDisk)) return false; //Zastąp blokiem try/catch i zestawem wyjątków (brak połączenia, plik o zadanej nazwie już istnieje)
-            if (!addDatabaseEntry(filename, defaultDisk))  //Zastąp blokiem try/catch i zestawem wyjątków (brak połączenia, błąd bazy(?))
+            if (!downloadResource(filename))
+            if (!saveResource(filename, defaultDisk, "", "")) return false; 
+            if (!addDatabaseEntry(filename, defaultDisk))
             {
-                while (!removeResource(filename, defaultDisk)) ;  //Zastąp blokiem try/catch i zestawem wyjątków z odpowiedimi reakcjami (brak połączenia, plik nie istnieje)
+                if (!removeResource(filename, defaultDisk, "", "")) ;
+                {
+                    //Zapisz do logu - nieusunięty plik na zdalnym dysku
+                }
                 return false;
             }
             return true;
         }
 
         /// <summary>
+        /// Pobiera obraz/wideo od użytkownika i zapisuje lokalnie
+        /// </summary>
+        /// <param name="filename">Nazwa, pod którą plik jest zapisywany</param>
+        public bool downloadResource(string filename)
+        {
+
+            return false;
+        }
+
+        /// <summary>
         /// Zapisuje na dysku zadany obraz/wideo.
         /// </summary>
-        /// <param name="resource">Obraz/wideo nadesłany do zapisu</param>
         /// <param name="filename">Nazwa pod jaką obraz/wideo ma być zapisany</param>
-        /// <param name="diskname">Dysk na którym obraz/wideo ma być zapisany</param>
+        /// <param name="diskname">Dysk (host) na którym obraz/wideo ma być zapisany</param>
+        /// <param name="username">Nazwa użytkownika do zalogowania</param>
+        /// <param name="password">Hasło do zalogowania</param>
         /// <returns>Informacja o sukcesie/porażce zapisu</returns>
-        public bool saveResource(Object resource, String filename, String diskname)
+        public bool saveResource(String filename, String diskname, String username, String password)
         {
-            return false;
+            try
+            {
+                FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname));
+                ftpReq.Method = WebRequestMethods.Ftp.UploadFile;
+                ftpReq.Credentials = new NetworkCredential(username, password);
+                ftpReq.UseBinary = true;
+
+                FileStream stream = File.OpenRead(filename);
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Close();
+
+                Stream reqStream = ftpReq.GetRequestStream();
+                reqStream.Write(buffer, 0, buffer.Length);
+                reqStream.Close();
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            //return false;
         }
 
         /// <summary>
@@ -65,8 +103,10 @@ namespace IO2P
         /// </summary>
         /// <param name="filename">Nazwa pliku do usunięcia</param>
         /// <param name="diskname">Dysk na którym plik został zapisany</param>
+        /// <param name="username">Nazwa użytkownika do zalogowania</param>
+        /// <param name="password">Hasło do zalogowania</param>
         /// <returns>Informacja o sukcesie porażce usuwania</returns>
-        public bool removeResource(String filename, String diskname)
+        public bool removeResource(String filename, String diskname, String username, String password)
         {
             return true;
         }

@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace IO2P
 {
-    class Program
+    class Program : Nancy.NancyModule
     {
         static void Main(string[] args)
         {
 
+        }
+
+        public Program()
+        {
+            Get["/"] = _ => "Test";
         }
     }
 }
