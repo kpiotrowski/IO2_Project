@@ -14,6 +14,9 @@ using System.Web;
 
 namespace IO2P
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class resourceAdder
     {
         /// <summary>
@@ -23,11 +26,10 @@ namespace IO2P
         /// <returns>Informacja czy zapis przebiegł pomyślnie</returns>
         public bool addResource(String filename)
         {
-            String defaultDisk = "";
-            if (!saveResource(filename, defaultDisk, "", "")) return false; 
-            if (!addDatabaseEntry(filename, defaultDisk))
+            if (!saveResource(filename, Environment.ExpandEnvironmentVariables("disk"), Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass"))) return false; 
+            if (!addDatabaseEntry(filename, Environment.ExpandEnvironmentVariables("disk")))
             {
-                if (!removeResource(filename, defaultDisk, Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass")))
+                if (!removeResource(filename, Environment.ExpandEnvironmentVariables("disk"), Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass")))
                 {
                     //Zapisz do logu - nieusunięty plik na zdalnym dysku
                 }
@@ -129,6 +131,11 @@ namespace IO2P
         /// <returns>Informacja o sukcesie porażce usuwania</returns>
         public bool removeResource(String filename, String diskname, String username, String password)
         {
+            if (diskname.Equals("local"))
+            {
+
+            }
+            else return true;
             return true;
         }
 
@@ -140,8 +147,8 @@ namespace IO2P
         {
             byte[] buffer = new byte[request.Body.Length];
             request.Body.Read(buffer, 0, buffer.Length);
-            downloadResource("test", buffer);
-            addResource("test");
+            downloadResource("test.ts", buffer);
+            addResource("test.ts");
             return false;
         }
     }

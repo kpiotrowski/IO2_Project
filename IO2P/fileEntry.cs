@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace IO2P
 {
+    /// <summary>
+    /// Klasa, której obiekty reprezentują pojedyncze wpisy w bazie danych informujące o obrazach/wideo.
+    /// </summary>
     class fileEntry
     {
         public String filename { get; set;  }
