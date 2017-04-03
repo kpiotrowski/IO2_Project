@@ -6,8 +6,6 @@ services:
 
 notifications:
   slack: $SlackSecret
-    on_success: always
-    on_failure: always
 
 
 before_script:
