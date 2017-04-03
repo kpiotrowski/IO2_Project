@@ -41,3 +41,4 @@ D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\Nancy.ViewEngines.Razor.x
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\System.Web.Razor.xml
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\obj\Debug\IO2P.exe
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\obj\Debug\IO2P.pdb
+D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\IO2P.XML

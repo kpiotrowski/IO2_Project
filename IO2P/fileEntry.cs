@@ -14,12 +14,25 @@ namespace IO2P
         public String filename { get; set;  }
         public String filetype { get; set; }
         public String localization { get; set; }
+        public DateTime addDate { get; set; }
+        public String category { get; set;  }
         public fileEntry(String filename, String diskname)
         {
             filename = filename.Split('.')[0];
             filetype = filename.Split('.')[1];
             localization = diskname + "/" + filename;
+            category = null;
+            addDate = DateTime.UtcNow;
         }
-        
+
+        public fileEntry(String filename, String diskname, String cName)
+        {
+            filename = filename.Split('.')[0];
+            filetype = filename.Split('.')[1];
+            localization = diskname + "/" + filename;
+            addDate = DateTime.UtcNow;
+            category = cName;
+        }
+
     }
 }

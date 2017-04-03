@@ -23,11 +23,12 @@ namespace IO2P
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
         /// <param name="filename">Nazwa pod jaką obraz/wideo ma zostać zapisany</param>
+        /// <param name="category">Kategoria pliku</param>
         /// <returns>Informacja czy zapis przebiegł pomyślnie</returns>
-        public bool addResource(String filename)
+        public bool addResource(String filename, String category)
         {
             if (!saveResource(filename, Environment.ExpandEnvironmentVariables("disk"), Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass"))) return false; 
-            if (!addDatabaseEntry(filename, Environment.ExpandEnvironmentVariables("disk")))
+            if (!addDatabaseEntry(filename, Environment.ExpandEnvironmentVariables("disk"),category))
             {
                 if (!removeResource(filename, Environment.ExpandEnvironmentVariables("disk"), Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass")))
                 {
@@ -93,8 +94,9 @@ namespace IO2P
         /// </summary>
         /// <param name="filename">Nazwa pod jaką obraz/wideo został zapisany</param>
         /// <param name="diskname">Dysk na którym obraz/wideo został zapisany</param>
+        /// <param name="category">Kategoria pliku</param>
         /// <returns>Informacja o sukceie/porażce dodawania do bazy danych</returns>
-        public bool addDatabaseEntry(String filename, String diskname)
+        public bool addDatabaseEntry(String filename, String diskname, String category)
         {
             var credential = MongoCredential.CreateMongoCRCredential(Environment.ExpandEnvironmentVariables("DB_NAME"), Environment.ExpandEnvironmentVariables("DB_USER"), Environment.ExpandEnvironmentVariables("DB_PASS"));
             var settings = new MongoClientSettings
@@ -117,7 +119,7 @@ namespace IO2P
                 writer.WriteEndDocument();
             }*/
            // db.CreateCollection("fileEntries");
-            db.GetCollection<fileEntry>("fileEntries").InsertOne(new fileEntry(filename, diskname));
+            db.GetCollection<fileEntry>("fileEntries").InsertOne(new fileEntry(filename, diskname, category));
             return false;
         }
 
@@ -133,9 +135,9 @@ namespace IO2P
         {
             if (diskname.Equals("local"))
             {
-
+                File.Delete(filename);
             }
-            else return true;
+            else return true; //call to resourceRemover (not in this sprint)
             return true;
         }
 
@@ -147,8 +149,15 @@ namespace IO2P
         {
             byte[] buffer = new byte[request.Body.Length];
             request.Body.Read(buffer, 0, buffer.Length);
-            downloadResource("test.ts", buffer);
-            addResource("test.ts");
+            String body = Encoding.Default.GetString(buffer);
+            String[] reqParams = body.Split('&');
+            String filename = reqParams[0].Split('=')[1];
+            String category = reqParams[1].Split('=')[1];
+            String data = reqParams[2].Split('=')[1];
+            byte[] datas = Convert.FromBase64String(data);
+            downloadResource(filename, datas);
+            addResource(filename, category);
+            removeResource(filename, "local", "", "");
             return false;
         }
     }
