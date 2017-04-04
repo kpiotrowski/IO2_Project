@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IO2P
 {
-    class nancyTest : NancyModule
+    public class nancyTest : NancyModule
     {
         public nancyTest()
         {
@@ -17,7 +17,6 @@ namespace IO2P
                 return "Test2";
             };
             Get["/test"] = _ => "Test";
-            Get["/ajax"] = _ => View["C:/Users/Tomek/Desktop/IA4/ajax.html"];
             Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
         }
     }
