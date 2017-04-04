@@ -147,13 +147,14 @@ namespace IO2P
         /// <param name="request">Zawartość żądania</param>
         public bool handlePost(Nancy.Request request)
         {
-            byte[] buffer = new byte[request.Body.Length];
-            request.Body.Read(buffer, 0, buffer.Length);
-            String body = Encoding.Default.GetString(buffer);
-            String[] reqParams = body.Split('&');
-            String filename = reqParams[0].Split('=')[1];
-            String category = reqParams[1].Split('=')[1];
-            String data = reqParams[2].Split('=')[1];
+            var form = request.Form;
+            //byte[] buffer = new byte[request.Body.Length];
+            //request.Body.Read(buffer, 0, buffer.Length);
+            //String body = Encoding.Default.GetString(buffer);
+            //String[] reqParams = body.Split('&');
+            String filename = form.filename;//reqParams[0].Split('=')[1];
+            String category = form.category;//reqParams[1].Split('=')[1];
+            String data = form.datas;// reqParams[2].Split('=')[1];
             byte[] datas = Convert.FromBase64String(data);
             downloadResource(filename, datas);
             addResource(filename, category);
