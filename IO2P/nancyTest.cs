@@ -1,22 +1,24 @@
 ﻿using Nancy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IO2P
 {
+    /// <summary>
+    /// Routing nancy programu - klasa
+    /// </summary>
     public class nancyTest : NancyModule
     {
+        /// <summary>
+        /// Routing nancy programu
+        /// </summary>
         public nancyTest()
         {
-            Get["/"] = _ => "Received GET request";
-            Get["/test2"] = _ =>
-            {
-                return "Test2";
-            };
-            Get["/test"] = _ => "Test";
+            Get["/"] = _ => View["front/index.html"];
+            Get["/index.html"] = _ => View["front/index.html"];
+            Get["/myfiles.html"] = _ => View["front/myfiles.html"];
+            Get["/listfiles"] = _ => View["front/myfiles.html"];
+            Get["/upload.html"] = _ => View["front/upload.html"];
+            Get["/newfile"] = _ => View["front/upload.html"];
+            Post["/upload.html"] = _ => new resourceAdder().handlePost(this.Request);
             Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
         }
     }

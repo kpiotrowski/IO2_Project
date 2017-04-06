@@ -1,22 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB;
-using MongoDB.Driver.Linq;
 using MongoDB.Driver;
 using System.Net;
 using System.IO;
-using System.Net.Sockets;
-using System.Net.Http;
-using System.Web;
 
 namespace IO2P
 {
-    /// <summary>
-    /// 
-    /// </summary>
     class resourceAdder
     {
         /// <summary>
@@ -86,7 +74,6 @@ namespace IO2P
             {
                 return false;
             }
-            //return false;
         }
 
         /// <summary>
@@ -106,19 +93,6 @@ namespace IO2P
             };
             var client = new MongoClient(settings);
             var db = client.GetDatabase(Environment.ExpandEnvironmentVariables("DB_NAME"));
-            /*using (var stream = new StreamWriter(filename + ".json"))
-            using (var writer = new MongoDB.Bson.IO.JsonWriter(stream))
-            {
-                writer.WriteStartDocument();
-                writer.WriteName("Nazwa pliku");
-                writer.WriteString(filename.Split('.')[0]);
-                writer.WriteName("Typ pliku");
-                writer.WriteString(filename.Split('.')[1]);
-                writer.WriteName("Lokalizacja pliku");
-                writer.WriteString(diskname + "/" + filename);
-                writer.WriteEndDocument();
-            }*/
-           // db.CreateCollection("fileEntries");
             db.GetCollection<fileEntry>("fileEntries").InsertOne(new fileEntry(filename, diskname, category));
             return false;
         }
@@ -144,7 +118,7 @@ namespace IO2P
         /// <summary>
         /// Zarządza obsługą POST'a do /newfile
         /// </summary>
-        /// <param name="request">Zawartość żądania</param>
+        /// <param name="request">Zawartość post</param>
         public bool handlePost(Nancy.Request request)
         {
             var form = request.Form;
@@ -159,7 +133,7 @@ namespace IO2P
             downloadResource(filename, datas);
             addResource(filename, category);
             removeResource(filename, "local", "", "");
-            return false;
+            return true;
         }
     }
 }

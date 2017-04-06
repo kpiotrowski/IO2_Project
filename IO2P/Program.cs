@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Nancy.Conventions;
 
 namespace IO2P
 {
@@ -15,7 +12,6 @@ namespace IO2P
                 var nancyHost = new Nancy.Hosting.Self.NancyHost(new Uri("http://localhost:9664/"), new CustomBootstrapper());
                 nancyHost.Start();
                 Console.WriteLine("Web server running...");
-                //System.Diagnostics.Process.Start("http://localhost:9664");
                 Console.ReadLine();
                 nancyHost.Stop();
             }
@@ -37,6 +33,14 @@ namespace IO2P
                     return new Nancy.Hosting.Self.FileSystemRootPathProvider();
                 }
             }
+
+            protected override void ConfigureConventions(NancyConventions nancyConventions)
+            {
+                base.ConfigureConventions(nancyConventions);
+                nancyConventions.StaticContentsConventions.AddDirectory("js", "front/js");
+                nancyConventions.StaticContentsConventions.AddDirectory("css", "front/css");
+            }
         }
+        
     }
 }

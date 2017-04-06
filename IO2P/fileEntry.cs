@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IO2P
 {
@@ -16,14 +12,6 @@ namespace IO2P
         public String localization { get; set; }
         public DateTime addDate { get; set; }
         public String category { get; set;  }
-        public fileEntry(String filename, String diskname)
-        {
-            filename = filename.Split('.')[0];
-            filetype = filename.Split('.')[1];
-            localization = diskname + "/" + filename;
-            category = null;
-            addDate = DateTime.UtcNow;
-        }
 
         public fileEntry(String filename, String diskname, String cName)
         {
