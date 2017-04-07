@@ -2,11 +2,20 @@
 using MongoDB.Driver;
 using System.Net;
 using System.IO;
+using System.Text;
 
 namespace IO2P
 {
     class resourceAdder
     {
+        private String DB_PORT = Environment.ExpandEnvironmentVariables("DB_PORT");
+        private String DB_HOST = Environment.ExpandEnvironmentVariables("DB_HOST");
+        private String DB_NAME = Environment.ExpandEnvironmentVariables("DB_NAME");
+        private String DB_USER = Environment.ExpandEnvironmentVariables("B_USER");
+        private String DB_PASS = Environment.ExpandEnvironmentVariables("DB_PORT");
+        private String FTP_HOST = Environment.ExpandEnvironmentVariables("FTP_HOST");
+        private String FTP_USER = Environment.ExpandEnvironmentVariables("FTP_USER");
+        private String FTP_PASS = Environment.ExpandEnvironmentVariables("FTP_PASS");
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
@@ -15,10 +24,10 @@ namespace IO2P
         /// <returns>Informacja czy zapis przebiegł pomyślnie</returns>
         public bool addResource(String filename, String category)
         {
-            if (!saveResource(filename, Environment.ExpandEnvironmentVariables("disk"), Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass"))) return false; 
-            if (!addDatabaseEntry(filename, Environment.ExpandEnvironmentVariables("disk"),category))
+            if (!saveResource(filename, FTP_HOST, FTP_USER, FTP_PASS)) return false; 
+            if (!addDatabaseEntry(filename, FTP_HOST, category))
             {
-                if (!removeResource(filename, Environment.ExpandEnvironmentVariables("disk"), Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass")))
+                if (!removeResource(filename, FTP_HOST, FTP_USER, FTP_PASS))
                 {
                     //Zapisz do logu - nieusunięty plik na zdalnym dysku
                 }
@@ -43,7 +52,7 @@ namespace IO2P
         }
 
         /// <summary>
-        /// Zapisuje na dysku zadany obraz/wideo.
+        /// Zapisuje na dysku (zdalnym) zadany obraz/wideo.
         /// </summary>
         /// <param name="filename">Nazwa pod jaką obraz/wideo ma być zapisany</param>
         /// <param name="diskname">Dysk (host) na którym obraz/wideo ma być zapisany</param>
@@ -72,6 +81,7 @@ namespace IO2P
             }
             catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -85,20 +95,28 @@ namespace IO2P
         /// <returns>Informacja o sukceie/porażce dodawania do bazy danych</returns>
         public bool addDatabaseEntry(String filename, String diskname, String category)
         {
-            var credential = MongoCredential.CreateMongoCRCredential(Environment.ExpandEnvironmentVariables("DB_NAME"), Environment.ExpandEnvironmentVariables("DB_USER"), Environment.ExpandEnvironmentVariables("DB_PASS"));
-            var settings = new MongoClientSettings
+            try
             {
-                Credentials = new[] { credential },
-                Server = new MongoServerAddress(Environment.ExpandEnvironmentVariables("DB_HOST"), Int32.Parse(Environment.ExpandEnvironmentVariables("DB_PORT")))
-            };
-            var client = new MongoClient(settings);
-            var db = client.GetDatabase(Environment.ExpandEnvironmentVariables("DB_NAME"));
-            db.GetCollection<fileEntry>("fileEntries").InsertOne(new fileEntry(filename, diskname, category));
-            return false;
+                var credential = MongoCredential.CreateMongoCRCredential(DB_NAME, DB_USER, DB_PASS);
+                var settings = new MongoClientSettings
+                {
+                    Credentials = new[] { credential },
+                    Server = new MongoServerAddress(DB_HOST, Int32.Parse(DB_PORT))
+                };
+                var client = new MongoClient(settings);
+                var db = client.GetDatabase(DB_NAME);
+                db.GetCollection<fileEntry>("fileEntries").InsertOne(new fileEntry(filename, diskname, category));
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         /// <summary>
-        /// Usuwa plik z dysku
+        /// Usuwa plik z dysku (zdalnego lub serwera)
         /// </summary>
         /// <param name="filename">Nazwa pliku do usunięcia</param>
         /// <param name="diskname">Dysk na którym plik został zapisany</param>
@@ -116,21 +134,25 @@ namespace IO2P
         }
 
         /// <summary>
-        /// Zarządza obsługą POST'a do /newfile
+        /// Zarządza obsługą żądania POST dodającego nowy plik do bazy.
         /// </summary>
-        /// <param name="request">Zawartość post</param>
+        /// <param name="request">Żądanie do obsłużenia</param>
         public bool handlePost(Nancy.Request request)
         {
             var form = request.Form;
-            //byte[] buffer = new byte[request.Body.Length];
-            //request.Body.Read(buffer, 0, buffer.Length);
-            //String body = Encoding.Default.GetString(buffer);
-            //String[] reqParams = body.Split('&');
-            String filename = form.filename;//reqParams[0].Split('=')[1];
-            String category = form.category;//reqParams[1].Split('=')[1];
-            String data = form.datas;// reqParams[2].Split('=')[1];
-            byte[] datas = Convert.FromBase64String(data);
-            downloadResource(filename, datas);
+            var files = request.Files;
+            String filename = form.filename;
+            String category = form.category;
+            var data = files.GetEnumerator();
+            data.MoveNext();
+            var fileStream = data.Current.Value;
+            byte[] buffer = new byte[fileStream.Length];
+            fileStream.Read(buffer, 0, buffer.Length);
+            String[] nameparts = data.Current.Name.Split('.');
+            if (filename.Equals(null) || filename.Equals("")) filename = data.Current.Name;
+            else filename = filename + "." + nameparts[nameparts.GetLength(0) - 1];
+            byte[] datas = Encoding.ASCII.GetBytes(data.Current.Value.ToString());
+            downloadResource(filename, buffer);
             addResource(filename, category);
             removeResource(filename, "local", "", "");
             return true;

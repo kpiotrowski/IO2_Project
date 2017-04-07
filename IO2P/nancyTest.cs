@@ -20,6 +20,11 @@ namespace IO2P
             Get["/newfile"] = _ => View["front/upload.html"];
             Post["/upload.html"] = _ => new resourceAdder().handlePost(this.Request);
             Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
+            Post["/newfile"] = _ =>
+            {
+                new resourceAdder().handlePost(this.Request);
+                return View["front/myfiles.html"];
+            };
         }
     }
 }
