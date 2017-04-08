@@ -1,22 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Nancy.Conventions;
 
 namespace IO2P
 {
-    class Program : Nancy.NancyModule
+    /// <summary>
+    /// Główna klasa programu serwera.
+    /// </summary>
+    class Program 
     {
+        /// <summary>
+        /// Główna metoda programu serwera.
+        /// </summary>
         static void Main(string[] args)
         {
-
+            try
+            {
+                var nancyHost = new Nancy.Hosting.Self.NancyHost(new Uri("http://localhost:9664/"), new CustomBootstrapper());
+                nancyHost.Start();
+                Console.WriteLine("Web server running...");
+                Console.ReadLine();
+                nancyHost.Stop();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+                Console.ReadLine();
+            }
         }
 
-        public Program()
-        {
-            Get["/"] = _ => "Test";
-            Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
-        }
+
     }
 }
