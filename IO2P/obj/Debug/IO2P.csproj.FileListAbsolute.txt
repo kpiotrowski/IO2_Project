@@ -1,7 +1,7 @@
 D:\Users\Tomek\Documents\Visual Studio 2015\Projects\IO2P\IO2P\bin\Debug\IO2P.exe.config
 D:\Users\Tomek\Documents\Visual Studio 2015\Projects\IO2P\IO2P\obj\Debug\IO2P.csprojResolveAssemblyReference.cache
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\IO2P.exe.config
-D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\obj\Debug\IO2P.csprojResolveAssemblyReference.cache
+D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\IO2P.XML
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\IO2P.exe
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\IO2P.pdb
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\Autofac.dll
@@ -39,6 +39,6 @@ D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\Nancy.Owin.xml
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\Nancy.Testing.xml
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\Nancy.ViewEngines.Razor.xml
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\System.Web.Razor.xml
+D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\obj\Debug\IO2P.csprojResolveAssemblyReference.cache
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\obj\Debug\IO2P.exe
 D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\obj\Debug\IO2P.pdb
-D:\Users\Tomek\Source\Repos\IO2_Project\IO2P\bin\Debug\IO2P.XML

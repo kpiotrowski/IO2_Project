@@ -6,6 +6,9 @@ using System.Text;
 
 namespace IO2P
 {
+    /// <summary>
+    /// Klasa zapisuje plik na zdalnym dysku i dodaje wpis z lokalizacją do bazy danych.
+    /// </summary>
     class resourceAdder
     {
         private String DB_PORT = Environment.ExpandEnvironmentVariables("DB_PORT");

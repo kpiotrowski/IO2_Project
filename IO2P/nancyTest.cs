@@ -3,12 +3,12 @@
 namespace IO2P
 {
     /// <summary>
-    /// Routing nancy programu - klasa
+    /// Klasa z routingiem nancy programu
     /// </summary>
     public class nancyTest : NancyModule
     {
         /// <summary>
-        /// Routing nancy programu
+        /// Konstruktor klasy z routingiem Nancy programu.
         /// </summary>
         public nancyTest()
         {

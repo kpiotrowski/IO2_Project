@@ -3,8 +3,14 @@ using Nancy.Conventions;
 
 namespace IO2P
 {
+    /// <summary>
+    /// Główna klasa programu serwera.
+    /// </summary>
     class Program 
     {
+        /// <summary>
+        /// Główna metoda programu serwera.
+        /// </summary>
         static void Main(string[] args)
         {
             try
@@ -23,24 +29,5 @@ namespace IO2P
         }
 
 
-        private class CustomBootstrapper : Nancy.DefaultNancyBootstrapper
-        {
-
-            protected override Nancy.IRootPathProvider RootPathProvider
-            {
-                get
-                {
-                    return new Nancy.Hosting.Self.FileSystemRootPathProvider();
-                }
-            }
-
-            protected override void ConfigureConventions(NancyConventions nancyConventions)
-            {
-                base.ConfigureConventions(nancyConventions);
-                nancyConventions.StaticContentsConventions.AddDirectory("js", "front/js");
-                nancyConventions.StaticContentsConventions.AddDirectory("css", "front/css");
-            }
-        }
-        
     }
 }

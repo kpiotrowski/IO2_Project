@@ -140,6 +140,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomBootstrapper.cs" />
     <Compile Include="fileEntry.cs" />
     <Compile Include="nancyTest.cs" />
     <Compile Include="Program.cs" />
