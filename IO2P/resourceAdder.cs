@@ -64,7 +64,7 @@ namespace IO2P
         /// <returns>Informacja o sukcesie/porażce zapisu</returns>
         public bool saveResource(String filename, String diskname, String username, String password)
         {
-            return true;
+            //return true;
             try
             {
                 FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname+ "/" + filename));

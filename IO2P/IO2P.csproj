@@ -197,7 +197,8 @@
     <Error Condition="!Exists('..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y /s  "$(ProjectDir)front\*" "$(ProjectDir)$(OutDir)front\*"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
