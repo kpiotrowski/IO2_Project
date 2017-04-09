@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace IO2P
 {
@@ -7,17 +8,22 @@ namespace IO2P
     /// </summary>
     class fileEntry
     {
+        [BsonElement("fn")]
         public String filename { get; set;  }
+        [BsonElement("ft")]
         public String filetype { get; set; }
+        [BsonElement("loc")]
         public String localization { get; set; }
+        [BsonElement("date")]
         public DateTime addDate { get; set; }
+        [BsonElement("cat")]
         public String category { get; set;  }
 
-        public fileEntry(String filename, String diskname, String cName)
+        public fileEntry(String filenameG, String diskname, String cName)
         {
-            filename = filename.Split('.')[0];
-            filetype = filename.Split('.')[1];
-            localization = diskname + "/" + filename;
+            filename = filenameG.Split('.')[0];
+            filetype = filenameG.Split('.')[1];
+            localization = diskname + "/" + filenameG;
             addDate = DateTime.UtcNow;
             category = cName;
         }

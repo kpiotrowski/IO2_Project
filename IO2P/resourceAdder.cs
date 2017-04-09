@@ -11,14 +11,14 @@ namespace IO2P
     /// </summary>
     class resourceAdder
     {
-        private String DB_PORT = Environment.ExpandEnvironmentVariables("DB_PORT");
-        private String DB_HOST = Environment.ExpandEnvironmentVariables("DB_HOST");
-        private String DB_NAME = Environment.ExpandEnvironmentVariables("DB_NAME");
-        private String DB_USER = Environment.ExpandEnvironmentVariables("B_USER");
-        private String DB_PASS = Environment.ExpandEnvironmentVariables("DB_PORT");
-        private String FTP_HOST = Environment.ExpandEnvironmentVariables("FTP_HOST");
-        private String FTP_USER = Environment.ExpandEnvironmentVariables("FTP_USER");
-        private String FTP_PASS = Environment.ExpandEnvironmentVariables("FTP_PASS");
+        private String DB_PORT = Environment.ExpandEnvironmentVariables("%DB_PORT%");
+        private String DB_HOST = Environment.ExpandEnvironmentVariables("%DB_HOST%");
+        private String DB_NAME = Environment.ExpandEnvironmentVariables("%DB_NAME%");
+        private String DB_USER = Environment.ExpandEnvironmentVariables("%DB_USER%");
+        private String DB_PASS = Environment.ExpandEnvironmentVariables("%DB_PORT%");
+        private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
+        private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");
+        private String FTP_PASS = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
@@ -64,9 +64,10 @@ namespace IO2P
         /// <returns>Informacja o sukcesie/porażce zapisu</returns>
         public bool saveResource(String filename, String diskname, String username, String password)
         {
+            //return true;
             try
             {
-                FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname));
+                FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname+ "/" + filename));
                 ftpReq.Method = WebRequestMethods.Ftp.UploadFile;
                 ftpReq.Credentials = new NetworkCredential(username, password);
                 ftpReq.UseBinary = true;
@@ -100,15 +101,17 @@ namespace IO2P
         {
             try
             {
-                var credential = MongoCredential.CreateMongoCRCredential(DB_NAME, DB_USER, DB_PASS);
-                var settings = new MongoClientSettings
-                {
-                    Credentials = new[] { credential },
-                    Server = new MongoServerAddress(DB_HOST, Int32.Parse(DB_PORT))
-                };
-                var client = new MongoClient(settings);
+                //var credential = MongoCredential.CreateCredential(DB_NAME, DB_USER, DB_PASS);
+                var url = "mongodb://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
+                //var settings = new MongoClientSettings
+                //{
+                //    Credentials = new[] { credential },
+                //    Server = new MongoServerAddress(DB_HOST, Int32.Parse(DB_PORT))
+                //};
+                var client = new MongoClient(url);
                 var db = client.GetDatabase(DB_NAME);
-                db.GetCollection<fileEntry>("fileEntries").InsertOne(new fileEntry(filename, diskname, category));
+                var collection = db.GetCollection<fileEntry>("obrazki");
+                collection.InsertOne(new fileEntry(filename, diskname, category));
                 return true;
             }
             catch(Exception ex)
