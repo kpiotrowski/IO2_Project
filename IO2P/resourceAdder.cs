@@ -64,7 +64,7 @@ namespace IO2P
         /// <returns>Informacja o sukcesie/porażce zapisu</returns>
         public bool saveResource(String filename, String diskname, String username, String password)
         {
-            //return true;
+            return true;
             try
             {
                 FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname+ "/" + filename));
@@ -104,8 +104,12 @@ namespace IO2P
                 var url = "mongodb://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
                 var client = new MongoClient(url);
                 var db = client.GetDatabase(DB_NAME);
+                //var collection = db.GetCollection<MongoDB.Bson.BsonDocument>("fileEntries");
                 var collection = db.GetCollection<fileEntry>("fileEntries");
+                //String json = "{ fn : \"" +  filename.Split('.')[0] + "\", ft : \"" + filename.Split('.')[1] + "\", loc : \"" + diskname + "/" + filename + "\", cat : \"" + category + "\"}";
                 collection.InsertOne(new fileEntry(filename, diskname, category));
+                //MongoDB.Bson.BsonDocument document = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<MongoDB.Bson.BsonDocument>(json);
+                //collection.InsertOne(document);
                 return true;
             }
             catch(Exception ex)
