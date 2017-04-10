@@ -150,5 +150,10 @@ namespace IO2P
             removeResource(filename, "local", "", "");
             return true;
         }
+
+        public void showFiles()
+        {
+
+        }
     }
 }
