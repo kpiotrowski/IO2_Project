@@ -11,7 +11,7 @@ before_script:
 script:
  - echo "dzialam"
  - mongo --version
- - xbuild /p:Configuration=Release IO2P.sln
+ - xbuild /p:Configuration=Release;PreBuildEvent=;PostBuildEvent= IO2P.sln
  
 notifications:
   slack:
