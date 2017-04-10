@@ -11,11 +11,7 @@ namespace IO2P
     /// </summary>
     class resourceAdder
     {
-        private String DB_PORT = Environment.ExpandEnvironmentVariables("%DB_PORT%");
-        private String DB_HOST = Environment.ExpandEnvironmentVariables("%DB_HOST%");
-        private String DB_NAME = Environment.ExpandEnvironmentVariables("%DB_NAME%");
-        private String DB_USER = Environment.ExpandEnvironmentVariables("%DB_USER%");
-        private String DB_PASS = Environment.ExpandEnvironmentVariables("%DB_PORT%");
+
         private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
         private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");
         private String FTP_PASS = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
@@ -30,6 +26,7 @@ namespace IO2P
             if (!saveResource(filename, FTP_HOST, FTP_USER, FTP_PASS)) return false; 
             if (!addDatabaseEntry(filename, FTP_HOST, category))
             {
+                
                 if (!removeResource(filename, FTP_HOST, FTP_USER, FTP_PASS))
                 {
                     //Zapisz do logu - nieusunięty plik na zdalnym dysku
@@ -100,10 +97,7 @@ namespace IO2P
         {
             try
             {
-                var url = "mongodb://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
-                var client = new MongoClient(url);
-                var db = client.GetDatabase(DB_NAME);
-                var collection = db.GetCollection<fileEntry>("fileEntries");
+                var collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
                 collection.InsertOne(new fileEntry(filename, diskname, category));
                 return true;
             }
