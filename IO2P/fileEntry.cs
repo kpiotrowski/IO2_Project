@@ -1,22 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace IO2P
 {
+    /// <summary>
+    /// Klasa, której obiekty reprezentują pojedyncze wpisy w bazie danych informujące o obrazach/wideo.
+    /// </summary>
+    [BsonIgnoreExtraElements]
     class fileEntry
     {
-        public String filename { get; set;  }
-        public String filetype { get; set; }
-        public String localization { get; set; }
-        public fileEntry(String filename, String diskname)
+        [BsonElement("fn")]
+        public string filename { get; set;  }
+        [BsonElement("ft")]
+        public string filetype { get; set; }
+        [BsonElement("loc")]
+        public string localization { get; set; }
+        [BsonElement("date")]
+        public string addDate { get; set; }
+        //public DateTime addDate { get; set; }
+        [BsonElement("cat")]
+        public string category { get; set;  }
+
+        public fileEntry(string filenameG, string diskname, string cName)
         {
-            filename = filename.Split('.')[0];
-            filetype = filename.Split('.')[1];
-            localization = diskname + "/" + filename;
+            filename = filenameG.Split('.')[0];
+            filetype = filenameG.Split('.')[1];
+            localization = diskname + "/" + filenameG;
+            addDate = DateTime.UtcNow.ToString();
+            category = cName;
         }
-        
+
     }
 }

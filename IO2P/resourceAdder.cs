@@ -1,33 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB;
-using MongoDB.Driver.Linq;
 using MongoDB.Driver;
 using System.Net;
 using System.IO;
-using System.Net.Sockets;
-using System.Net.Http;
-using System.Web;
+using System.Text;
 
 namespace IO2P
 {
+    /// <summary>
+    /// Klasa zapisuje plik na zdalnym dysku i dodaje wpis z lokalizacją do bazy danych.
+    /// </summary>
     class resourceAdder
     {
+
+        private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
+        private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");
+        private String FTP_PASS = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
         /// <param name="filename">Nazwa pod jaką obraz/wideo ma zostać zapisany</param>
+        /// <param name="category">Kategoria pliku</param>
         /// <returns>Informacja czy zapis przebiegł pomyślnie</returns>
-        public bool addResource(String filename)
+        public bool addResource(String filename, String category)
         {
-            String defaultDisk = "";
-            if (!saveResource(filename, defaultDisk, "", "")) return false; 
-            if (!addDatabaseEntry(filename, defaultDisk))
+            if (!saveResource(filename, FTP_HOST, FTP_USER, FTP_PASS)) return false; 
+            if (!addDatabaseEntry(filename, FTP_HOST, category))
             {
-                if (!removeResource(filename, defaultDisk, Environment.ExpandEnvironmentVariables("diskUser"), Environment.ExpandEnvironmentVariables("diskPass")))
+                
+                if (!removeResource(filename, FTP_HOST, FTP_USER, FTP_PASS))
                 {
                     //Zapisz do logu - nieusunięty plik na zdalnym dysku
                 }
@@ -52,7 +52,7 @@ namespace IO2P
         }
 
         /// <summary>
-        /// Zapisuje na dysku zadany obraz/wideo.
+        /// Zapisuje na dysku (zdalnym) zadany obraz/wideo.
         /// </summary>
         /// <param name="filename">Nazwa pod jaką obraz/wideo ma być zapisany</param>
         /// <param name="diskname">Dysk (host) na którym obraz/wideo ma być zapisany</param>
@@ -61,9 +61,10 @@ namespace IO2P
         /// <returns>Informacja o sukcesie/porażce zapisu</returns>
         public bool saveResource(String filename, String diskname, String username, String password)
         {
+            //return true;
             try
             {
-                FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname));
+                FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname+ "/" + filename));
                 ftpReq.Method = WebRequestMethods.Ftp.UploadFile;
                 ftpReq.Credentials = new NetworkCredential(username, password);
                 ftpReq.UseBinary = true;
@@ -81,9 +82,9 @@ namespace IO2P
             }
             catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
-            //return false;
         }
 
         /// <summary>
@@ -91,36 +92,25 @@ namespace IO2P
         /// </summary>
         /// <param name="filename">Nazwa pod jaką obraz/wideo został zapisany</param>
         /// <param name="diskname">Dysk na którym obraz/wideo został zapisany</param>
+        /// <param name="category">Kategoria pliku</param>
         /// <returns>Informacja o sukceie/porażce dodawania do bazy danych</returns>
-        public bool addDatabaseEntry(String filename, String diskname)
+        public bool addDatabaseEntry(String filename, String diskname, String category)
         {
-            var credential = MongoCredential.CreateMongoCRCredential(Environment.ExpandEnvironmentVariables("DB_NAME"), Environment.ExpandEnvironmentVariables("DB_USER"), Environment.ExpandEnvironmentVariables("DB_PASS"));
-            var settings = new MongoClientSettings
+            try
             {
-                Credentials = new[] { credential },
-                Server = new MongoServerAddress(Environment.ExpandEnvironmentVariables("DB_HOST"), Int32.Parse(Environment.ExpandEnvironmentVariables("DB_PORT")))
-            };
-            var client = new MongoClient(settings);
-            var db = client.GetDatabase(Environment.ExpandEnvironmentVariables("DB_NAME"));
-            /*using (var stream = new StreamWriter(filename + ".json"))
-            using (var writer = new MongoDB.Bson.IO.JsonWriter(stream))
+                var collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
+                collection.InsertOne(new fileEntry(filename, diskname, category));
+                return true;
+            }
+            catch(Exception ex)
             {
-                writer.WriteStartDocument();
-                writer.WriteName("Nazwa pliku");
-                writer.WriteString(filename.Split('.')[0]);
-                writer.WriteName("Typ pliku");
-                writer.WriteString(filename.Split('.')[1]);
-                writer.WriteName("Lokalizacja pliku");
-                writer.WriteString(diskname + "/" + filename);
-                writer.WriteEndDocument();
-            }*/
-           // db.CreateCollection("fileEntries");
-            db.GetCollection<fileEntry>("fileEntries").InsertOne(new fileEntry(filename, diskname));
-            return false;
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         /// <summary>
-        /// Usuwa plik z dysku
+        /// Usuwa plik z dysku (zdalnego lub serwera)
         /// </summary>
         /// <param name="filename">Nazwa pliku do usunięcia</param>
         /// <param name="diskname">Dysk na którym plik został zapisany</param>
@@ -129,20 +119,38 @@ namespace IO2P
         /// <returns>Informacja o sukcesie porażce usuwania</returns>
         public bool removeResource(String filename, String diskname, String username, String password)
         {
+            if (diskname.Equals("local"))
+            {
+                File.Delete(filename);
+            }
+            else return true; //call to resourceRemover (not in this sprint)
             return true;
         }
 
         /// <summary>
-        /// Zarządza obsługą POST'a do /newfile
+        /// Zarządza obsługą żądania POST dodającego nowy plik do bazy.
         /// </summary>
-        /// <param name="request">Zawartość żądania</param>
+        /// <param name="request">Żądanie do obsłużenia</param>
         public bool handlePost(Nancy.Request request)
         {
-            byte[] buffer = new byte[request.Body.Length];
-            request.Body.Read(buffer, 0, buffer.Length);
-            downloadResource("test", buffer);
-            addResource("test");
-            return false;
+            var form = request.Form;
+            var files = request.Files;
+            String filename = form.filename;
+            String category = form.category;
+            var data = files.GetEnumerator();
+            data.MoveNext();
+            var fileStream = data.Current.Value;
+            byte[] buffer = new byte[fileStream.Length];
+            fileStream.Read(buffer, 0, buffer.Length);
+            String[] nameparts = data.Current.Name.Split('.');
+            if (filename.Equals(null) || filename.Equals("")) filename = data.Current.Name;
+            else filename = filename + "." + nameparts[nameparts.GetLength(0) - 1];
+            byte[] datas = Encoding.ASCII.GetBytes(data.Current.Value.ToString());
+            downloadResource(filename, buffer);
+            addResource(filename, category);
+            removeResource(filename, "local", "", "");
+            return true;
         }
+
     }
 }

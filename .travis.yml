@@ -2,17 +2,18 @@ language: csharp
 solution: IO2P.sln
 
 services:
-  - mongodb
-
-notifications:
-  slack: $SlackSecret
-
+- mongodb
 
 before_script:
-  - sleep 15
-  - mongo $DB_NAME --eval "db.addUser('$DB_USER', '$DB_PASS');"
+- sleep 15
+- mongo $DB_NAME --eval "db.addUser('$DB_USER', '$DB_PASS');"
 
 script:
  - echo "dzialam"
  - mongo --version
  - xbuild /p:Configuration=Release IO2P.sln
+ 
+notifications:
+  slack:
+    secure: GImixweyDV4jrI6kHldp3INvx/BFoJ8uRKWz1i1iKu2WaIGprF+NoWSmFFjlpZKCCCqFVajVBZniji0VdfIE4DTFNE2K1rO4x++g3y9etOYFD2vKLPk859wLR5b823TV4bjyy1OSN2AKzsMFPoEGRd9lnqsjoUs/ffn1Rip9Cyah+h13tnUQQoYxmNC6Z6cTW/XqNRqOVOB+YqPs8cldAq+rfwQAri2ya+bGHhSy6JkXywt8Gt+iI560WBbhXL5YMI+3mztHAerryoeusMfpkpAKs9r6e3KV+HoaUrdPI7Cnjk3NSBG/wV439432QYCJRc5562XRfwtakOiH7qL4TzSqiuYZTjme0OXAJ+50Z4QX16ywVGbqRVEwwqZsnH3l83gxkmYukV5UXJLLKDsEueNNzvK5awu24C3tnwLR5s0yMxiXg+k3pUDJA3swZhoCc9hKLBSVFyvuI8L7lYO97bQ0oAmd0gOwtZllMF/RPPR3JFk63P58lFoLAi5jgBWNe+E4XfoehjlgdmrZOxymQm913eMshdWy7houNZPG0IGtpiS/8OGwI6M3C00Ls7cVNnDVQ0SRk6GJTlmRdzn3pJ693N0PCOQzD/OVs5xrBxPW76RF+0+4OzAm00XtyQ9pznPsk0gyRLEixovsYj/FImoVg5Q4HeuFVcGrkN+aOf8=
+
