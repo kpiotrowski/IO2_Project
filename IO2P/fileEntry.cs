@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace IO2P
@@ -6,25 +7,27 @@ namespace IO2P
     /// <summary>
     /// Klasa, której obiekty reprezentują pojedyncze wpisy w bazie danych informujące o obrazach/wideo.
     /// </summary>
+    [BsonIgnoreExtraElements]
     class fileEntry
     {
         [BsonElement("fn")]
-        public String filename { get; set;  }
+        public string filename { get; set;  }
         [BsonElement("ft")]
-        public String filetype { get; set; }
+        public string filetype { get; set; }
         [BsonElement("loc")]
-        public String localization { get; set; }
+        public string localization { get; set; }
         [BsonElement("date")]
-        public DateTime addDate { get; set; }
+        public string addDate { get; set; }
+        //public DateTime addDate { get; set; }
         [BsonElement("cat")]
-        public String category { get; set;  }
+        public string category { get; set;  }
 
-        public fileEntry(String filenameG, String diskname, String cName)
+        public fileEntry(string filenameG, string diskname, string cName)
         {
             filename = filenameG.Split('.')[0];
             filetype = filenameG.Split('.')[1];
             localization = diskname + "/" + filenameG;
-            addDate = DateTime.UtcNow;
+            addDate = DateTime.UtcNow.ToString();
             category = cName;
         }
 
