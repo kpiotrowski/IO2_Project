@@ -14,7 +14,7 @@ namespace IO2P
         {
             Get["/"] = _ => View["front/index.html"];
             Get["/index.html"] = _ => View["front/index.html"];
-            Get["/myfiles.html"] = _ => ;
+            Get["/myfiles.html"] = _ => View["front/myfiles.html"];
             Get["/listfiles"] = _ => View["front/myfiles.html"];
             Get["/upload.html"] = _ => View["front/upload.html"];
             Get["/newfile"] = _ => View["front/upload.html"];
@@ -28,11 +28,5 @@ namespace IO2P
         }
 
 
-        public void showFiles()
-        {
-            View["front/myfiles.html"];
-
-        }
     }
 }
-22
