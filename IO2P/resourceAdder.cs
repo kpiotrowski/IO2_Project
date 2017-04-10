@@ -152,9 +152,5 @@ namespace IO2P
             return true;
         }
 
-        public void showFiles()
-        {
-
-        }
     }
 }
