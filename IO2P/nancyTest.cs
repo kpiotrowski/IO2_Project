@@ -26,5 +26,10 @@ namespace IO2P
                 return View["front/myfiles.html"];
             };
         }
+
+        public void showFiles()
+        {
+
+        }
     }
 }
