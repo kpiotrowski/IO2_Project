@@ -153,6 +153,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="resourceAdder.cs" />
+    <Compile Include="UnknownFileExtensionException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -209,9 +210,10 @@
     <Error Condition="!Exists('..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nancy.Viewengines.Razor.1.4.3\build\Nancy.ViewEngines.Razor.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent></PostBuildEvent>
-	<PostBuildEvent Condition=" '$(OS)' == 'Unix' ">yes | cp -Rf $(ProjectDir)front $(ProjectDir)$(OutDir)</PostBuildEvent>
-	<PostBuildEvent Condition=" '$(OS)' != 'Unix' ">xcopy /y /s  "$(ProjectDir)front\*" "$(ProjectDir)$(OutDir)front\*"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">yes | cp -Rf $(ProjectDir)front $(ProjectDir)$(OutDir)</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">xcopy /y /s  "$(ProjectDir)front\*" "$(ProjectDir)$(OutDir)front\*"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

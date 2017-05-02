@@ -22,7 +22,14 @@ namespace IO2P
             Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
             Post["/newfile"] = _ =>
             {
-                new resourceAdder().handlePost(this.Request);
+                try
+                {
+                    new resourceAdder().handlePost(this.Request);
+                }
+                catch(UnknownFileExtensionException e)
+                {
+                    return "Ustalenie typu pliku okazało się niemożliwe";
+                }
                 return View["front/myfiles.html"];
             };
         }

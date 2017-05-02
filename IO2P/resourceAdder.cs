@@ -142,6 +142,7 @@ namespace IO2P
             byte[] buffer = new byte[fileStream.Length];
             fileStream.Read(buffer, 0, buffer.Length);
             String[] nameparts = data.Current.Name.Split('.');
+            if (nameparts.Length < 2) throw new UnknownFileExtensionException();
             if (filename.Equals(null) || filename.Equals("")) filename = data.Current.Name;
             else filename = filename + "." + nameparts[nameparts.GetLength(0) - 1];
             byte[] datas = Encoding.ASCII.GetBytes(data.Current.Value.ToString());
