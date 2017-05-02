@@ -30,6 +30,14 @@ namespace IO2P
                 {
                     return "Ustalenie typu pliku okazało się niemożliwe";
                 }
+                catch(NotAnImageFileException e)
+                {
+                    return "Załączaony plik nie jest obrazkiem";
+                }
+                catch(NotAVideoFileException e)
+                {
+                    return "Załączony plik nie jest wideo";
+                }
                 return View["front/myfiles.html"];
             };
         }

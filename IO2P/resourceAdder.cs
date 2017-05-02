@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System.Net;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 namespace IO2P
 {
@@ -143,8 +144,19 @@ namespace IO2P
             fileStream.Read(buffer, 0, buffer.Length);
             String[] nameparts = data.Current.Name.Split('.');
             if (nameparts.Length < 2) throw new UnknownFileExtensionException();
+            String extension = nameparts[nameparts.GetLength(0) - 1].ToLowerInvariant();
+            List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
+            List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
+            if (category.Equals("obrazek"))
+            {
+                if (!imageExtensionsList.Contains(extension)) throw new NotAnImageFileException();
+            }
+            else if (category.Equals("wideo"))
+            {
+                if (!videoExtensionsList.Contains(extension)) throw new NotAVideoFileException();
+            }
             if (filename.Equals(null) || filename.Equals("")) filename = data.Current.Name;
-            else filename = filename + "." + nameparts[nameparts.GetLength(0) - 1];
+            else filename = filename + "." + extension;
             byte[] datas = Encoding.ASCII.GetBytes(data.Current.Value.ToString());
             downloadResource(filename, buffer);
             addResource(filename, category);
