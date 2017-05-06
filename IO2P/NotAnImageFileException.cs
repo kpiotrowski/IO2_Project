@@ -3,6 +3,10 @@ using System.Runtime.Serialization;
 
 namespace IO2P
 {
+
+    /// <summary>
+    /// Wyjątek rzucany w sytuacji, gdy plik z zadeklarowanym typem obrazek nie posiada odpowiadającem temu typowi pliku rozszerzenia.
+    /// </summary>
     [Serializable]
     internal class NotAnImageFileException : Exception
     {

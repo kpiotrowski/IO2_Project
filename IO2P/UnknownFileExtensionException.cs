@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace IO2P
 {
+    /// <summary>
+    /// Wyjątek rzucany w sytuacji, gdy do przetwarzania został podany plik pozbawiony rozszerzania.
+    /// </summary>
     [Serializable]
     internal class UnknownFileExtensionException : Exception
     {

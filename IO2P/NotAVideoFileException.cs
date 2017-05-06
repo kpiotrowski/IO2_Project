@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace IO2P
 {
+    /// <summary>
+    /// Wyjątek rzucany w sytuacji, gdy plik z zadeklarowanym typem wideo nie posiada odpowiadającem temu typowi pliku rozszerzenia.
+    /// </summary>
     [Serializable]
     internal class NotAVideoFileException : Exception
     {
