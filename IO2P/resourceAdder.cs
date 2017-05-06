@@ -147,6 +147,7 @@ namespace IO2P
             String extension = nameparts[nameparts.GetLength(0) - 1].ToLowerInvariant();
             List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
             List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
+            List<String> soundExtensionsList = new List<String> { "mp3", "ogg", "3ga", "aac", "flac", "midi", "wav", "wma" };
             if (category.Equals("obrazek"))
             {
                 if (!imageExtensionsList.Contains(extension)) throw new NotAnImageFileException();
@@ -154,6 +155,10 @@ namespace IO2P
             else if (category.Equals("wideo"))
             {
                 if (!videoExtensionsList.Contains(extension)) throw new NotAVideoFileException();
+            }
+            else if (category.Equals("dźwięk"))
+            {
+                if (!soundExtensionsList.Contains(extension)) throw new NotASoundFileException();
             }
             if (filename.Equals(null) || filename.Equals("")) filename = data.Current.Name;
             else filename = filename + "." + extension;

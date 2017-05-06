@@ -26,17 +26,21 @@ namespace IO2P
                 {
                     new resourceAdder().handlePost(this.Request);
                 }
-                catch(UnknownFileExtensionException e)
+                catch(UnknownFileExtensionException)
                 {
                     return "Ustalenie typu pliku okazało się niemożliwe";
                 }
-                catch(NotAnImageFileException e)
+                catch(NotAnImageFileException)
                 {
                     return "Załączaony plik nie jest obrazkiem";
                 }
-                catch(NotAVideoFileException e)
+                catch(NotAVideoFileException)
                 {
                     return "Załączony plik nie jest wideo";
+                }
+                catch (NotASoundFileException)
+                {
+                    return "Załączony plik nie jest dźwiękiem";
                 }
                 return View["front/myfiles.html"];
             };

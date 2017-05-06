@@ -146,6 +146,7 @@
     <Compile Include="fileEntry.cs" />
     <Compile Include="nancyTest.cs" />
     <Compile Include="NotAnImageFileException.cs" />
+    <Compile Include="NotASoundFileException.cs" />
     <Compile Include="NotAVideoFileException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
