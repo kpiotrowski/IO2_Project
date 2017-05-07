@@ -22,9 +22,33 @@ namespace IO2P
             Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
             Post["/newfile"] = _ =>
             {
-                new resourceAdder().handlePost(this.Request);
+                try
+                {
+                    new resourceAdder().handlePost(this.Request);
+                }
+                catch(UnknownFileExtensionException)
+                {
+                    return "Ustalenie typu pliku okazało się niemożliwe";
+                }
+                catch(NotAnImageFileException)
+                {
+                    return "Załączaony plik nie jest obrazkiem";
+                }
+                catch(NotAVideoFileException)
+                {
+                    return "Załączony plik nie jest wideo";
+                }
+                catch (NotASoundFileException)
+                {
+                    return "Załączony plik nie jest dźwiękiem";
+                }
                 return View["front/myfiles.html"];
             };
+        }
+
+        public void showFiles()
+        {
+
         }
     }
 }

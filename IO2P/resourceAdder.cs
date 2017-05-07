@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System.Net;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 namespace IO2P
 {
@@ -11,11 +12,7 @@ namespace IO2P
     /// </summary>
     class resourceAdder
     {
-        private String DB_PORT = Environment.ExpandEnvironmentVariables("%DB_PORT%");
-        private String DB_HOST = Environment.ExpandEnvironmentVariables("%DB_HOST%");
-        private String DB_NAME = Environment.ExpandEnvironmentVariables("%DB_NAME%");
-        private String DB_USER = Environment.ExpandEnvironmentVariables("%DB_USER%");
-        private String DB_PASS = Environment.ExpandEnvironmentVariables("%DB_PORT%");
+
         private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
         private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");
         private String FTP_PASS = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
@@ -30,6 +27,7 @@ namespace IO2P
             if (!saveResource(filename, FTP_HOST, FTP_USER, FTP_PASS)) return false; 
             if (!addDatabaseEntry(filename, FTP_HOST, category))
             {
+                
                 if (!removeResource(filename, FTP_HOST, FTP_USER, FTP_PASS))
                 {
                     //Zapisz do logu - nieusunięty plik na zdalnym dysku
@@ -64,7 +62,6 @@ namespace IO2P
         /// <returns>Informacja o sukcesie/porażce zapisu</returns>
         public bool saveResource(String filename, String diskname, String username, String password)
         {
-            //return true;
             try
             {
                 FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname+ "/" + filename));
@@ -101,10 +98,7 @@ namespace IO2P
         {
             try
             {
-                var url = "mongodb://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
-                var client = new MongoClient(url);
-                var db = client.GetDatabase(DB_NAME);
-                var collection = db.GetCollection<fileEntry>("fileEntries");
+                var collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
                 collection.InsertOne(new fileEntry(filename, diskname, category));
                 return true;
             }
@@ -149,13 +143,31 @@ namespace IO2P
             byte[] buffer = new byte[fileStream.Length];
             fileStream.Read(buffer, 0, buffer.Length);
             String[] nameparts = data.Current.Name.Split('.');
+            if (nameparts.Length < 2) throw new UnknownFileExtensionException();
+            String extension = nameparts[nameparts.GetLength(0) - 1].ToLowerInvariant();
+            List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
+            List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
+            List<String> soundExtensionsList = new List<String> { "mp3", "ogg", "3ga", "aac", "flac", "midi", "wav", "wma" };
+            if (category.Equals("obrazek"))
+            {
+                if (!imageExtensionsList.Contains(extension)) throw new NotAnImageFileException();
+            }
+            else if (category.Equals("wideo"))
+            {
+                if (!videoExtensionsList.Contains(extension)) throw new NotAVideoFileException();
+            }
+            else if (category.Equals("dźwięk"))
+            {
+                if (!soundExtensionsList.Contains(extension)) throw new NotASoundFileException();
+            }
             if (filename.Equals(null) || filename.Equals("")) filename = data.Current.Name;
-            else filename = filename + "." + nameparts[nameparts.GetLength(0) - 1];
+            else filename = filename + "." + extension;
             byte[] datas = Encoding.ASCII.GetBytes(data.Current.Value.ToString());
             downloadResource(filename, buffer);
             addResource(filename, category);
             removeResource(filename, "local", "", "");
             return true;
         }
+
     }
 }
