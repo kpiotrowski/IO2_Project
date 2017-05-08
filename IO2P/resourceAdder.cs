@@ -148,15 +148,15 @@ namespace IO2P
             List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
             List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
             List<String> soundExtensionsList = new List<String> { "mp3", "ogg", "3ga", "aac", "flac", "midi", "wav", "wma" };
-            if (category.Equals("obrazek"))
+            if (category.Equals("image"))
             {
                 if (!imageExtensionsList.Contains(extension)) throw new NotAnImageFileException();
             }
-            else if (category.Equals("wideo"))
+            else if (category.Equals("video"))
             {
                 if (!videoExtensionsList.Contains(extension)) throw new NotAVideoFileException();
             }
-            else if (category.Equals("dźwięk"))
+            else if (category.Equals("sound"))
             {
                 if (!soundExtensionsList.Contains(extension)) throw new NotASoundFileException();
             }

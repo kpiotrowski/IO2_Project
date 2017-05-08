@@ -10,8 +10,10 @@ namespace IO2P
     [BsonIgnoreExtraElements]
     class fileEntry
     {
+        [BsonId]
+        public ObjectId ID { get; set; }
         [BsonElement("fn")]
-        public string filename { get; set;  }
+        public string filename { get; set; }
         [BsonElement("ft")]
         public string filetype { get; set; }
         [BsonElement("loc")]

@@ -16,6 +16,12 @@ namespace IO2P
             Get["/index.html"] = _ => View["front/index.html"];
             Get["/myfiles.html"] = _ => View["front/myfiles.html"];
             Get["/listfiles"] = _ => View["front/myfiles.html"];
+            Get["/listfiles/{type}"] = param =>
+            {
+                DbaseMongo database = DbaseMongo.Instance;
+                
+                return database.showCollection(collection);
+            };
             Get["/upload.html"] = _ => View["front/upload.html"];
             Get["/newfile"] = _ => View["front/upload.html"];
             Post["/upload.html"] = _ => new resourceAdder().handlePost(this.Request);

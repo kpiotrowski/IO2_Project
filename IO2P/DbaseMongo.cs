@@ -76,20 +76,31 @@ namespace IO2P
                 return this.client;
             }
         }
-
         /// <summary>
-        /// Metida zwracająca zadaną kolekcje z bazy
+        /// Metoda dodaje kolekcje do juz instniejacej listy, mozliwe jest filtrowanie kolekcji
         /// </summary>
-        /// <typeparam name="T">Typ elementów kolekcji</typeparam>
-        /// <param name="collection">Nazwa kolekcji</param>
-        public void showCollection<T>(IMongoCollection<T> collection)
+        /// <typeparam name="T">Typ w jakim ma zostac pobrana kolekcja</typeparam>
+        /// <param name="list">Lista do ktorej zostanie dodana kolekcja</param>
+        /// <param name="name">Nazwa kolekcji</param>
+        /// <param name="filter">filtr, domyslnie null</param>
+        public void getCollection<T>(List<T> list, string name, FilterDefinition<T> filter = null)
         {
-            var list = collection.Find(FilterDefinition<T>.Empty).ToList();
-            foreach (var item in list)
+            if (filter == null) filter = FilterDefinition<T>.Empty;
+            var collection = this.db.GetCollection<T>(name);
+            list.AddRange(collection.Find(filter).ToList());
+        }
+        /// <summary>
+        /// Metoda zwracająca zadaną kolekcje z bazy
+        /// </summary>
+        /// <param name="name">Nazwa kolekcji</param>
+        public void showCollection(string name)
+        {
+            List<BsonDocument> list = new List<BsonDocument>();
+            this.getCollection(list,name);
+            foreach (BsonDocument item in list)
             {
                 Console.WriteLine(item.ToJson());
             }
         }
-
     }
 }
