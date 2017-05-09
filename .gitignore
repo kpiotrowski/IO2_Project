@@ -6,8 +6,10 @@
 /.vs
 /bin/
 /bin/*
-/obj/
+/obj
 /obj/*
+/IO2P/bin
+/IO2P/bin/*
 /IO2P/bin/Debug/IO2P.exe
 /IO2P/bin/Debug
 /IO2P/obj/Debug/IO2P.exe
