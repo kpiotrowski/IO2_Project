@@ -215,7 +215,7 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">yes | cp -Rf $(ProjectDir)front $(ProjectDir)$(OutDir)</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">cp -Rf $(ProjectDir)front $(ProjectDir)$(OutDir)</PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">xcopy /y /s  "$(ProjectDir)front\*" "$(ProjectDir)$(OutDir)front\*"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

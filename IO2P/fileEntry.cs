@@ -10,25 +10,31 @@ namespace IO2P
     [BsonIgnoreExtraElements]
     class fileEntry
     {
-        [BsonElement("fn")]
-        public string filename { get; set;  }
-        [BsonElement("ft")]
-        public string filetype { get; set; }
-        [BsonElement("loc")]
+        [BsonId]
+        public ObjectId ID { get; set; }
+        [BsonElement("filename")]
+        public string filename { get; set; }
+        [BsonElement("fileExtension")]
+        public string fileExtension { get; set; }
+        [BsonElement("localization")]
         public string localization { get; set; }
         [BsonElement("date")]
         public string addDate { get; set; }
         //public DateTime addDate { get; set; }
-        [BsonElement("cat")]
+        [BsonElement("category")]
         public string category { get; set;  }
+        [BsonElement("fileType")]
+        public string fileType { get; set; }
 
-        public fileEntry(string filenameG, string diskname, string cName)
+
+        public fileEntry(string filenameG, string diskname, string cName, String fileType)
         {
             filename = filenameG.Split('.')[0];
-            filetype = filenameG.Split('.')[1];
+            fileExtension = filenameG.Split('.')[1];
             localization = diskname + "/" + filenameG;
             addDate = DateTime.UtcNow.ToString();
             category = cName;
+            this.fileType = fileType;
         }
 
     }
