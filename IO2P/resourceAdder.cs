@@ -22,6 +22,7 @@ namespace IO2P
         /// </summary>
         /// <param name="filename">Nazwa pod jaką obraz/wideo ma zostać zapisany</param>
         /// <param name="category">Kategoria pliku</param>
+        /// <param name="fileType">Typ pliku</param>
         /// <returns>Informacja czy zapis przebiegł pomyślnie</returns>
         public bool addResource(String filename, String fileType, String category)
         {
@@ -99,7 +100,7 @@ namespace IO2P
         {
             try
             {
-                var collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
+                IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
                 collection.InsertOne(new fileEntry(filename, diskname, category, fileType));
                 return true;
             }
@@ -141,7 +142,7 @@ namespace IO2P
             String fileType = form.fileType;
             var data = files.GetEnumerator();
             data.MoveNext();
-            var fileStream = data.Current.Value;
+            Stream fileStream = data.Current.Value;
             byte[] buffer = new byte[fileStream.Length];
             fileStream.Read(buffer, 0, buffer.Length);
             String[] nameparts = data.Current.Name.Split('.');
