@@ -141,8 +141,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteArrayResponse.cs" />
     <Compile Include="CustomBootstrapper.cs" />
     <Compile Include="DbaseMongo.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="fileEntry.cs" />
     <Compile Include="nancyTest.cs" />
     <Compile Include="NotAnImageFileException.cs" />
@@ -156,6 +158,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="resourceAdder.cs" />
+    <Compile Include="resourceDeleter.cs" />
+    <Compile Include="resourceViewer.cs" />
     <Compile Include="UnknownFileExtensionException.cs" />
   </ItemGroup>
   <ItemGroup>
