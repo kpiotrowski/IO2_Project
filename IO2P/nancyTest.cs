@@ -27,8 +27,9 @@ namespace IO2P
             // };
             Post["/getfile"] = _ =>
             {
-                string contentType = this.Request.Form.contentType;
-                byte[] file = new resourceViewer().handleRequest(this.Request);
+                resourceViewer resView = new resourceViewer();
+                byte[] file = resView.handleRequest(this.Request);
+                string contentType = resView.getContentType();
                 return Response.FromByteArray(file, contentType);
             };
             Post["/removefile"] = _ =>

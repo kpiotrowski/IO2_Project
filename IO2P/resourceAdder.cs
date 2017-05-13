@@ -160,7 +160,7 @@ namespace IO2P
             {
                 if (!videoExtensionsList.Contains(extension)) throw new NotAVideoFileException();
             }
-            else if (fileType.Equals("sound"))
+            else if (fileType.Equals("audio"))
             {
                 if (!soundExtensionsList.Contains(extension)) throw new NotASoundFileException();
             }

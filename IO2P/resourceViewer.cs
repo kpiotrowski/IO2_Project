@@ -9,6 +9,7 @@ namespace IO2P
 {
     class resourceViewer
     {
+        private String contentType = null;
         private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
         private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");
         private String FTP_PASS = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
@@ -47,6 +48,11 @@ namespace IO2P
             return mStream.ToArray();
         }
 
+        public string getContentType()
+        {
+            return contentType;
+        }
+
         private string findResourceLocation(string fileId)
         {
             try
@@ -58,6 +64,7 @@ namespace IO2P
                 if((Entry = find.First<fileEntry>()) != null)
                 {
                     find.Dispose();
+                    contentType = Entry.contentType;
                     return Entry.localization;
                 }
                 find.Dispose();
