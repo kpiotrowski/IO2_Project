@@ -25,6 +25,8 @@ namespace IO2P
         public string category { get; set;  }
         [BsonElement("fileType")]
         public string fileType { get; set; }
+        [BsonElement("contentType")]
+        public string contentType { get; set; }
 
 
         public fileEntry(string filenameG, string diskname, string cName, String fileType)
@@ -35,6 +37,8 @@ namespace IO2P
             addDate = DateTime.UtcNow.ToString();
             category = cName;
             this.fileType = fileType;
+            contentType = MimeTypes.MimeTypeMap.GetMimeType(fileExtension);
+            //contentType = fileType + "/" + fileExtension;
         }
 
     }
