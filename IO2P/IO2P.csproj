@@ -141,10 +141,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteArrayResponse.cs" />
     <Compile Include="CustomBootstrapper.cs" />
     <Compile Include="DbaseMongo.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="fileEntry.cs" />
     <Compile Include="nancyTest.cs" />
+    <Compile Include="NotAnImageFileException.cs" />
+    <Compile Include="NotASoundFileException.cs" />
+    <Compile Include="NotAVideoFileException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -153,6 +158,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="resourceAdder.cs" />
+    <Compile Include="resourceDeleter.cs" />
+    <Compile Include="resourceViewer.cs" />
+    <Compile Include="UnknownFileExtensionException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -211,6 +219,8 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">cp -Rf $(ProjectDir)front $(ProjectDir)$(OutDir)</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">xcopy /y /s  "$(ProjectDir)front\*" "$(ProjectDir)$(OutDir)front\*"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

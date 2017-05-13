@@ -1,8 +1,10 @@
 ﻿using System;
 using MongoDB.Driver;
+using MongoDB.Bson;
 using System.Net;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 namespace IO2P
 {
@@ -20,11 +22,12 @@ namespace IO2P
         /// </summary>
         /// <param name="filename">Nazwa pod jaką obraz/wideo ma zostać zapisany</param>
         /// <param name="category">Kategoria pliku</param>
+        /// <param name="fileType">Typ pliku</param>
         /// <returns>Informacja czy zapis przebiegł pomyślnie</returns>
-        public bool addResource(String filename, String category)
+        public bool addResource(String filename, String fileType, String category)
         {
             if (!saveResource(filename, FTP_HOST, FTP_USER, FTP_PASS)) return false; 
-            if (!addDatabaseEntry(filename, FTP_HOST, category))
+            if (!addDatabaseEntry(filename, FTP_HOST, fileType, category))
             {
                 
                 if (!removeResource(filename, FTP_HOST, FTP_USER, FTP_PASS))
@@ -61,7 +64,6 @@ namespace IO2P
         /// <returns>Informacja o sukcesie/porażce zapisu</returns>
         public bool saveResource(String filename, String diskname, String username, String password)
         {
-            //return true;
             try
             {
                 FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(diskname+ "/" + filename));
@@ -93,13 +95,14 @@ namespace IO2P
         /// <param name="filename">Nazwa pod jaką obraz/wideo został zapisany</param>
         /// <param name="diskname">Dysk na którym obraz/wideo został zapisany</param>
         /// <param name="category">Kategoria pliku</param>
+        /// <param name="fileType">Typ pliku</param>
         /// <returns>Informacja o sukceie/porażce dodawania do bazy danych</returns>
-        public bool addDatabaseEntry(String filename, String diskname, String category)
+        public bool addDatabaseEntry(String filename, String diskname, String fileType, String category)
         {
             try
             {
-                var collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
-                collection.InsertOne(new fileEntry(filename, diskname, category));
+                IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
+                collection.InsertOne(new fileEntry(filename, diskname, category, fileType));
                 return true;
             }
             catch(Exception ex)
@@ -137,20 +140,37 @@ namespace IO2P
             var files = request.Files;
             String filename = form.filename;
             String category = form.category;
+            String fileType = form.fileType;
             var data = files.GetEnumerator();
             data.MoveNext();
-            var fileStream = data.Current.Value;
+            Stream fileStream = data.Current.Value;
             byte[] buffer = new byte[fileStream.Length];
             fileStream.Read(buffer, 0, buffer.Length);
             String[] nameparts = data.Current.Name.Split('.');
+            if (nameparts.Length < 2) throw new UnknownFileExtensionException();
+            String extension = nameparts[nameparts.GetLength(0) - 1].ToLowerInvariant();
+            List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
+            List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
+            List<String> soundExtensionsList = new List<String> { "mp3", "ogg", "3ga", "aac", "flac", "midi", "wav", "wma" };
+            if (fileType.Equals("image"))
+            {
+                if (!imageExtensionsList.Contains(extension)) throw new NotAnImageFileException();
+            }
+            else if (fileType.Equals("video"))
+            {
+                if (!videoExtensionsList.Contains(extension)) throw new NotAVideoFileException();
+            }
+            else if (fileType.Equals("sound"))
+            {
+                if (!soundExtensionsList.Contains(extension)) throw new NotASoundFileException();
+            }
             if (filename.Equals(null) || filename.Equals("")) filename = data.Current.Name;
-            else filename = filename + "." + nameparts[nameparts.GetLength(0) - 1];
+            else filename = filename + "." + extension;
             byte[] datas = Encoding.ASCII.GetBytes(data.Current.Value.ToString());
             downloadResource(filename, buffer);
-            addResource(filename, category);
+            addResource(filename, fileType, category);
             removeResource(filename, "local", "", "");
             return true;
         }
-
     }
 }
