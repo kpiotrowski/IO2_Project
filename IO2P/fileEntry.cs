@@ -38,7 +38,7 @@ namespace IO2P
             category = cName;
             this.fileType = fileType;
             contentType = MimeTypes.MimeTypeMap.GetMimeType(fileExtension);
-            //contentType = fileType + "/" + fileExtension;
+            //contentType = fileType + "/" + fileExtension
         }
 
     }
