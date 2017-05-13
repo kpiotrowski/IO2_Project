@@ -95,6 +95,7 @@ namespace IO2P
         /// <param name="filename">Nazwa pod jaką obraz/wideo został zapisany</param>
         /// <param name="diskname">Dysk na którym obraz/wideo został zapisany</param>
         /// <param name="category">Kategoria pliku</param>
+        /// <param name="fileType">Typ pliku</param>
         /// <returns>Informacja o sukceie/porażce dodawania do bazy danych</returns>
         public bool addDatabaseEntry(String filename, String diskname, String fileType, String category)
         {
