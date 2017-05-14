@@ -105,7 +105,7 @@ namespace IO2P
         {
             try
             {
-                IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
+                IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>(DbaseMongo.DefaultCollection);
                 collection.InsertOne(new fileEntry(filename, diskname, category, fileType));
                 return true;
             }

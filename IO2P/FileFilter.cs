@@ -17,24 +17,27 @@ namespace IO2P
             var builder = Builders<BsonDocument>.Filter;
             var filter = builder.Eq(fileEntry.DBfileType,fileType);
 
-            string name = request.Query["name"];
+            string name = request.Query[fileEntry.DBfileName];
             if (!name.Equals(""))
             {
-                filter &= builder.Regex(fileEntry.DBfileName, new BsonRegularExpression("/%" + name + "%/i"));
+                filter &= builder.Regex(fileEntry.DBfileName, new BsonRegularExpression("/.*" + name + ".*/i"));
             }
-            string category = request.Query["category"];
+            string category = request.Query[fileEntry.DBcategory];
             if (!category.Equals(""))
             {
-                filter &= builder.Regex(fileEntry.DBcategory, new BsonRegularExpression("/%" + category + "%/i"));
+                filter &= builder.Regex(fileEntry.DBcategory, new BsonRegularExpression("/.*" + category + ".*/i"));
             }
-            string extension = request.Query["extension"];
+            string extension = request.Query[fileEntry.DBfileExtenstion];
             if (!extension.Equals(""))
             {
                 filter &= builder.Regex(fileEntry.DBfileExtenstion, new BsonRegularExpression("/^" + extension + "$/i"));
             }
 
             List<BsonDocument> list = new List<BsonDocument>();
-            DbaseMongo.Instance.getCollection(list, DbaseMongo.DefaultCollection,filter);
+            DbaseMongo.Instance.getCollection(list, DbaseMongo.DefaultCollection, filter);
+
+            //Console.WriteLine("fileType: " + fileType + " name: " + name + " category: " + category + " extension " + extension);
+            //Console.WriteLine(list.ToJson());
             return list.ToJson();
         }
     }

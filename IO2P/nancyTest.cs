@@ -1,5 +1,6 @@
 ﻿using Nancy;
 using System.IO;
+using System.Text;
 
 namespace IO2P
 {
@@ -19,7 +20,13 @@ namespace IO2P
             Get["/listfiles/{fileType}"] = param =>
             {
                 FileFilter filter = new FileFilter();
-                return filter.filterFileCollection(param.filterType, this.Request);
+                return filter.filterFileCollection(param.fileType, this.Request);
+                //var jsonBytes = Encoding.UTF8.GetBytes(json);
+                //return new Response
+                //{
+                //    ContentType = "application/json",
+                //    Contents = s => s.Write(jsonBytes, 0, jsonBytes.Length)
+                //};
             };
             Get["/upload.html"] = _ => View["front/upload.html"];
             Get["/newfile"] = _ => View["front/upload.html"];
