@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
-
+using MongoDB.Bson.IO;
 
 namespace IO2P
 {
@@ -38,7 +38,8 @@ namespace IO2P
 
             //Console.WriteLine("fileType: " + fileType + " name: " + name + " category: " + category + " extension " + extension);
             //Console.WriteLine(list.ToJson());
-            return list.ToJson();
+            var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+            return list.ToJson(jsonWriterSettings);
         }
     }
 }
