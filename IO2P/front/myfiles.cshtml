@@ -15,7 +15,7 @@
              <th>Akcje</th>
          </tr>
          </thead>
-         <tbody>
+         <tbody class="listTable">
             <tr class="tableLoader"><td colspan="6">
                <div class="loader"></div>
             </td></tr>
@@ -23,22 +23,59 @@
      </table>
  </div>
 
+ <script type="text/javascript">
+    var deleteItem = function(that){
+       selected = that.parent().siblings();
+       name = selected[1].innerText;
+       console.log(name);
+       $.ajax({
+         type: "POST",
+         url: window.location.host + '/removefile',
+         data: {
+           filename: name,
+           action: "delete"
+         },
+         success: function(msg) {
+           console.log( "Return data: " + msg );
+           $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>')
+             .insertAfter(".header");
+           setTimeout(() => {
+             $(".alert").remove();
+           }, 3000);
+         },
+         error: function(xhr, ajaxOptions, thrownError) {
+           console.log( "Connection error occurred!");
+           $('<div class="alert alert-danger"><strong>Danger! </strong>Connection error occured!</div>')
+             .insertAfter(".header");
+           setTimeout(() => {
+             $(".alert").remove();
+           }, 3000);
+         }
+       });
+    }
+ </script>
 
-<script type="text/javascript">
- $(document).ready(function () {
-   $(".del-btn").click(function() {
-      selected = $(this).parent().siblings();
-      name = selected[1].innerText;
-      console.log(name);
+<script>
+   var loadFiles = function(category){
+
       $.ajax({
-        type: "POST",
-        url: window.location.host + '/removefile',
-        data: {
-          filename: name,
-          action: "delete"
-        },
-        success: function(msg) {
-          console.log( "Return data: " + msg );
+        type: "GET",
+        url: window.location.host + '/listfiles/'+category,
+
+        success: function(data) {
+           $('.tableLoader').remove()
+          $.each(data, function(index, itemData) {
+             var row = "<tr></tr>";
+             row.append("<td>"+itemData.filename+"</td>")
+              row.append("<td>"+itemData._id+"</td>")
+              row.append("<td>"+itemData.filename+"."+itemData.fileExtension+"</td>")
+              row.append("<td>"+itemData.fileType+"</td>")
+              row.append("<td>"+"---"+"</td>")
+              row.append("<td>"+itemData.date+"</td>")
+              row.append("<td>"+"<button class='btn btn-default'>Edytuj</button>"+"<button onclick='deleteItem($(this))' class='btn btn-danger del-btn'>Usuń</button>"+"</td>");
+
+              $(".listTable").append(row);
+            });
           $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>')
             .insertAfter(".header");
           setTimeout(() => {
@@ -46,6 +83,7 @@
           }, 3000);
         },
         error: function(xhr, ajaxOptions, thrownError) {
+           $('.tableLoader').remove()
           console.log( "Connection error occurred!");
           $('<div class="alert alert-danger"><strong>Danger! </strong>Connection error occured!</div>')
             .insertAfter(".header");
@@ -54,6 +92,7 @@
           }, 3000);
         }
       });
-  });
- });
+   }
 </script>
+
+@RenderBody()

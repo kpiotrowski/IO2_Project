@@ -1,7 +1,12 @@
 @{
-  Layout="front/myfiles.cshtml";
+   Layout="front/myfiles.cshtml";
 }
 @section title
 {
- Moje obrazy
+   Moje obrazy
 }
+<script>
+   $(document).ready(function () {
+      loadFiles("images");
+   });
+</script>
