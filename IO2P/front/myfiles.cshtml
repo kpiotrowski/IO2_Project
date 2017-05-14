@@ -32,7 +32,7 @@
          type: "POST",
          url: "http://"+window.location.host + '/removefile',
          data: {
-           field: file_id,
+           "field": file_id,
          },
          success: function(msg) {
            console.log( "Return data: " + msg );
@@ -72,7 +72,7 @@
 
               $(".listTable").append(row);
             });
-          $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>').insertAfter(".header");
+          $('<div class="alert alert-success"><strong>Success! </strong>Successfully downloaded files!</div>').insertAfter(".header");
           setTimeout(() => {
             $(".alert").remove();
           }, 3000);
