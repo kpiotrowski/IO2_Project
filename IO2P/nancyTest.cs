@@ -15,9 +15,9 @@ namespace IO2P
         /// </summary>
         public nancyTest()
         {
-            Get["/"] = _ => View["front/index.html"];
-            Get["/index.html"] = _ => View["front/index.html"];
-            Get["/myfiles.html"] = _ => View["front/myfiles.html"];
+            Get["/"] = _ => View["front/index.cshtml"];
+            Get["/index.html"] = _ => View["front/index.cshtml"];
+            Get["/myfiles.html"] = _ => View["front/myfiles.cshtml"];
             Get["/listfiles/{fileType}"] = param =>
             {
                 FileFilter filter = new FileFilter();
@@ -29,8 +29,8 @@ namespace IO2P
                 //    Contents = s => s.Write(jsonBytes, 0, jsonBytes.Length)
                 //};
             };
-            Get["/upload.html"] = _ => View["front/upload.html"];
-            Get["/newfile"] = _ => View["front/upload.html"];
+            Get["/upload.html"] = _ => View["front/upload.cshtml"];
+            Get["/newfile"] = _ => View["front/upload.cshtml"];
             // Get["/getfile"] = _ =>
             // {
             //     string contentType = this.Request.Query["contentType"];
