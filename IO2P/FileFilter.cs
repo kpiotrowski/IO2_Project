@@ -16,6 +16,7 @@ namespace IO2P
         {
             var builder = Builders<BsonDocument>.Filter;
             var filter = builder.Eq(fileEntry.DBfileType,fileType);
+
             string name = request.Query["name"];
             if (!name.Equals(""))
             {
@@ -31,6 +32,7 @@ namespace IO2P
             {
                 filter &= builder.Regex(fileEntry.DBfileExtenstion, new BsonRegularExpression("/^" + extension + "$/i"));
             }
+
             List<BsonDocument> list = new List<BsonDocument>();
             DbaseMongo.Instance.getCollection(list, DbaseMongo.DefaultCollection,filter);
             return list.ToJson();
