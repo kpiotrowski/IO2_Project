@@ -69,7 +69,7 @@
                  link = $("<td><a class='gallery' href='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>"+itemData._id.$oid+"</a></td>")
                  row.append(link);
               } else if (category =='audio'){
-                 audio = $("<td>"+itemData._id.$oid+"<audio src='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>Not supported</audio></td>");
+                 audio = $("<td><audio controls src='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>Not supported</audio></td>");
                  row.append(audio);
               }
                else{
