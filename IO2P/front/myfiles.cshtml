@@ -26,7 +26,7 @@
  <script type="text/javascript">
     var deleteItem = function(that){
        selected = that.parent().siblings();
-       var file_id = selected[0].innerText;
+       var file_id = that.parent().parent().attr('itemid');
        console.log(file_id);
        $.ajax({
          type: "POST",
@@ -64,7 +64,7 @@
         success: function(data) {
           $('.tableLoader').remove()
           $.each(JSON.parse(data), function(index, itemData) {
-             var row = $("<tr></tr>");
+             var row = $("<tr itemid='"+itemData._id.$oid+"'></tr>");
               if(category=='image'){
                  link = $("<td><a class='gallery' href='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>"+itemData._id.$oid+"</a></td>")
                  row.append(link);
