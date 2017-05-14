@@ -71,6 +71,10 @@ namespace IO2P
             {
                 return this.database;
             }
+            set
+            {
+                this.database = value;
+            }
         }
         public IMongoClient Client
         {

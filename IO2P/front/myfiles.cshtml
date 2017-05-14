@@ -26,14 +26,13 @@
  <script type="text/javascript">
     var deleteItem = function(that){
        selected = that.parent().siblings();
-       name = selected[1].innerText;
-       console.log(name);
+       var file_id = selected[0].innerText;
+       console.log(file_id);
        $.ajax({
          type: "POST",
-         url: window.location.host + '/removefile',
+         url: "http://"+window.location.host + '/removefile',
          data: {
-           filename: name,
-           action: "delete"
+           field: file_id,
          },
          success: function(msg) {
            console.log( "Return data: " + msg );
@@ -63,9 +62,8 @@
         success: function(data) {
           $('.tableLoader').remove()
           $.each(JSON.parse(data), function(index, itemData) {
-             var row = "<tr></tr>";
-             row.append("<td>"+itemData.filename+"</td>")
-              row.append("<td>"+itemData._id+"</td>")
+             var row = $("<tr></tr>");
+              row.append("<td>"+itemData._id.$oid+"</td>")
               row.append("<td>"+itemData.filename+"."+itemData.fileExtension+"</td>")
               row.append("<td>"+itemData.fileType+"</td>")
               row.append("<td>"+"---"+"</td>")
