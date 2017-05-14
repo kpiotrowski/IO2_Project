@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IO2P</RootNamespace>
     <AssemblyName>IO2P</AssemblyName>
-    <TargetFrameworkVersion>netcoreapp1.0</TargetFrameworkVersion>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
