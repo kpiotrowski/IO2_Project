@@ -64,8 +64,7 @@
           $('.tableLoader').remove()
           $.each(JSON.parse(data), function(index, itemData) {
              var row = $("<tr></tr>");
-             row.append("<td>"+itemData.filename+"</td>")
-              row.append("<td>"+itemData._id+"</td>")
+              row.append("<td>"+itemData._id.$oid+"</td>")
               row.append("<td>"+itemData.filename+"."+itemData.fileExtension+"</td>")
               row.append("<td>"+itemData.fileType+"</td>")
               row.append("<td>"+"---"+"</td>")
