@@ -30,7 +30,7 @@
        console.log(name);
        $.ajax({
          type: "POST",
-         url: window.location.host + '/removefile',
+         url: "http://"+window.location.host + '/removefile',
          data: {
            filename: name,
            action: "delete"
@@ -63,7 +63,7 @@
         success: function(data) {
           $('.tableLoader').remove()
           $.each(JSON.parse(data), function(index, itemData) {
-             var row = "<tr></tr>";
+             var row = $("<tr></tr>");
              row.append("<td>"+itemData.filename+"</td>")
               row.append("<td>"+itemData._id+"</td>")
               row.append("<td>"+itemData.filename+"."+itemData.fileExtension+"</td>")
