@@ -1,0 +1,109 @@
+@{
+  Layout="front/mainWrapper.cshtml";
+}
+ <div class="content">
+     <h1 class="header>Moje pliki</h1>
+     <table class="table">
+         <thead>
+         <tr>
+             <th>#</th>
+             <th>Nazwa pliku</th>
+             <th>Typ</th>
+             <th>Rozmiar</th>
+             <th>Data przesłania</th>
+             <th>Akcje</th>
+         </tr>
+         </thead>
+         <tbody>
+         <tr>
+             <td>1</td>
+             <td>logo.jpg</td>
+             <td>PHOTO</td>
+             <td>140 KB</td>
+             <td>03.04.2017</td>
+             <td>
+                 <button class="btn btn-default">Edytuj</button>
+                 <button class="btn btn-danger del-btn">Usuń</button>
+             </td>
+         </tr>
+         <tr>
+             <td>2</td>
+             <td>profilowe.jpg</td>
+             <td>PHOTO</td>
+             <td>280 KB</td>
+             <td>01.04.2017</td>
+             <td>
+                 <button class="btn btn-default">Edytuj</button>
+                 <button class="btn btn-danger del-btn">Usuń</button>
+             </td>
+         </tr>
+         <tr>
+             <td>3</td>
+             <td>doCV.jpg</td>
+             <td>PHOTO</td>
+             <td>320 KB</td>
+             <td>01.04.2017</td>
+             <td>
+                 <button class="btn btn-default">Edytuj</button>
+                 <button class="btn btn-danger del-btn">Usuń</button>
+             </td>
+         </tr>
+         <tr>
+             <td>4</td>
+             <td>wycieczka.wmv</td>
+             <td>VIDEO</td>
+             <td>1.2 GB</td>
+             <td>03.01.2017</td>
+             <td>
+                 <button class="btn btn-default">Edytuj</button>
+                 <button class="btn btn-danger del-btn">Usuń</button>
+             </td>
+         </tr>
+         <tr>
+             <td>5</td>
+             <td>grill.avi</td>
+             <td>VIDEO</td>
+             <td>300 MB</td>
+             <td>03.06.2016</td>
+             <td>
+                 <button class="btn btn-default">Edytuj</button>
+                 <button class="btn btn-danger del-btn">Usuń</button>
+             </td>
+         </tr>
+         </tbody>
+     </table>
+ </div>
+
+<script type="text/javascript">
+ $(document).ready(function () {
+   $(".del-btn").click(function() {
+      selected = $(this).parent().siblings();
+      name = selected[1].innerText;
+      console.log(name);
+      $.ajax({
+        type: "POST",
+        url: window.location.host + '/removefile',
+        data: {
+          filename: name,
+          action: "delete"
+        },
+        success: function(msg) {
+          console.log( "Return data: " + msg );
+          $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>')
+            .insertAfter(".header");
+          setTimeout(() => {
+            $(".alert").remove();
+          }, 3000);
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          console.log( "Connection error occurred!");
+          $('<div class="alert alert-danger"><strong>Danger! </strong>Connection error occured!</div>')
+            .insertAfter(".header");
+          setTimeout(() => {
+            $(".alert").remove();
+          }, 3000);
+        }
+      });
+  });
+ });
+</script>

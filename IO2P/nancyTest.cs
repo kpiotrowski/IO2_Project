@@ -1,5 +1,6 @@
 ﻿using Nancy;
 using System.IO;
+using Nancy.ViewEngines.Razor;
 
 namespace IO2P
 {
@@ -13,12 +14,9 @@ namespace IO2P
         /// </summary>
         public nancyTest()
         {
-            Get["/"] = _ => View["front/index.html"];
-            Get["/index.html"] = _ => View["front/index.html"];
-            Get["/myfiles.html"] = _ => View["front/myfiles.html"];
-            Get["/listfiles"] = _ => View["front/myfiles.html"];
-            Get["/upload.html"] = _ => View["front/upload.html"];
-            Get["/newfile"] = _ => View["front/upload.html"];
+            Get["/"] = _ => View["front/index.cshtml"];
+            Get["/listfiles"] = _ => View["front/myfiles.cshtml"];
+            Get["/newfile"] = _ => View["front/upload.cshtml"];
             // Get["/getfile"] = _ =>
             // {
             //     string contentType = this.Request.Query["contentType"];
@@ -42,7 +40,6 @@ namespace IO2P
             //     new resourceDeleter().handleRequest(this.Request);
             //    return true;
             // };
-            Post["/upload.html"] = _ => new resourceAdder().handlePost(this.Request);
             Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
             Post["/newfile"] = _ =>
             {
