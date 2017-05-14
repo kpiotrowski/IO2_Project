@@ -79,7 +79,8 @@ namespace IO2P
 
         internal byte[] handleGet(object id)
         {
-            String fileLocation = findResourceLocation(id.ToString());
+            String fileId = id.ToString().Split('.')[0];
+            String fileLocation = findResourceLocation(fileId);
             byte[] file = downloadResource(fileLocation);
             return file;
         }
