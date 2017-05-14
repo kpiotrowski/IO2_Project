@@ -88,7 +88,7 @@ namespace IO2P
                 {
                     return "Załączony plik nie jest dźwiękiem";
                 }
-                return View["front/myfiles.html"];
+                return View["front/index.cshtml"];
             };
         }
 
