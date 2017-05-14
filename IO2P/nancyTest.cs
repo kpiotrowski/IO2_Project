@@ -48,6 +48,13 @@ namespace IO2P
                 string contentType = resView.getContentType();
                 return Response.FromByteArray(file, contentType);
             };
+            Get["/getfile/{id}"] = x =>
+            {
+                resourceViewer resView = new resourceViewer();
+                byte[] file = resView.handleGet(x.id);
+                string contentType = resView.getContentType();
+                return Response.FromByteArray(file, contentType);
+            };
             Post["/removefile"] = _ =>
             {
                new resourceDeleter().handleRequest(this.Request);
