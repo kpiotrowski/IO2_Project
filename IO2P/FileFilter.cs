@@ -18,17 +18,17 @@ namespace IO2P
             var filter = builder.Eq(fileEntry.DBfileType,fileType);
 
             string name = request.Query[fileEntry.DBfileName];
-            if (!name.Equals(""))
+            if (!String.IsNullOrEmpty(name))
             {
                 filter &= builder.Regex(fileEntry.DBfileName, new BsonRegularExpression("/.*" + name + ".*/i"));
             }
             string category = request.Query[fileEntry.DBcategory];
-            if (!category.Equals(""))
+            if (!String.IsNullOrEmpty(category))
             {
                 filter &= builder.Regex(fileEntry.DBcategory, new BsonRegularExpression("/.*" + category + ".*/i"));
             }
             string extension = request.Query[fileEntry.DBfileExtenstion];
-            if (!extension.Equals(""))
+            if (!String.IsNullOrEmpty(extension))
             {
                 filter &= builder.Regex(fileEntry.DBfileExtenstion, new BsonRegularExpression("/^" + extension + "$/i"));
             }

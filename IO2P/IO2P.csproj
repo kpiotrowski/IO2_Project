@@ -172,7 +172,13 @@
     <None Include="front\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="front\fonts\glyphicons-halflings-regular.woff" />
     <None Include="front\fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="front\README.md" />
+    <None Include="front\index.cshtml" />
+    <None Include="front\mainWrapper.cshtml" />
+    <None Include="front\myaudio.cshtml" />
+    <None Include="front\myfiles.cshtml" />
+    <None Include="front\myimages.cshtml" />
+    <None Include="front\myvideo.cshtml" />
+    <None Include="front\upload.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -194,11 +200,10 @@
     <Content Include="front\css\bootstrap.min.css" />
     <Content Include="front\css\Style.css" />
     <Content Include="front\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="front\index.html" />
     <Content Include="front\js\bootstrap.js" />
     <Content Include="front\js\bootstrap.min.js" />
     <Content Include="front\js\npm.js" />
-    <Content Include="front\myfiles.html" />
+    <Content Include="front\myfilesBC.html" />
     <Content Include="front\pom.txt" />
     <Content Include="front\upload.html" />
   </ItemGroup>
