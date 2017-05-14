@@ -38,7 +38,7 @@
            console.log( "Return data: " + msg );
            $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>')
              .insertAfter(".header");
-           that.parent().remove();
+           that.parent().parent().remove();
            setTimeout(() => {
              $(".alert").remove();
            }, 3000);
