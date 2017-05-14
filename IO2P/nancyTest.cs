@@ -16,7 +16,11 @@ namespace IO2P
             Get["/"] = _ => View["front/index.html"];
             Get["/index.html"] = _ => View["front/index.html"];
             Get["/myfiles.html"] = _ => View["front/myfiles.html"];
-            Get["/listfiles"] = _ => View["front/myfiles.html"];
+            Get["/listfiles/{fileType}"] = param =>
+            {
+                FileFilter filter = new FileFilter();
+                return filter.filterFileCollection(param.filterType, this.Request);
+            };
             Get["/upload.html"] = _ => View["front/upload.html"];
             Get["/newfile"] = _ => View["front/upload.html"];
             // Get["/getfile"] = _ =>

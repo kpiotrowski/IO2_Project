@@ -68,10 +68,6 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MimeTypeMap, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MediaTypeMap.2.1.0.0\lib\net40\MimeTypeMap.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MongoDB.Bson, Version=2.4.3.23, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.4.3\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
@@ -150,6 +146,7 @@
     <Compile Include="DbaseMongo.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="fileEntry.cs" />
+    <Compile Include="FileFilter.cs" />
     <Compile Include="nancyTest.cs" />
     <Compile Include="NotAnImageFileException.cs" />
     <Compile Include="NotASoundFileException.cs" />
