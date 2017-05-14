@@ -31,13 +31,14 @@ namespace IO2P
             };
             Get["/upload.html"] = _ => View["front/upload.cshtml"];
             Get["/newfile"] = _ => View["front/upload.cshtml"];
-            // Get["/getfile"] = _ =>
-            // {
-            //     string contentType = this.Request.Query["contentType"];
-            //     byte[] file = new resourceViewer().handleRequest(this.Request);
-            //     return Response.FromByteArray(file, contentType);
-            // };
             Post["/getfile"] = _ =>
+            {
+                resourceViewer resView = new resourceViewer();
+                byte[] file = resView.handleRequest(this.Request);
+                string contentType = resView.getContentType();
+                return Response.FromByteArray(file, contentType);
+            };
+            Get["/getfile"] = _ =>
             {
                 resourceViewer resView = new resourceViewer();
                 byte[] file = resView.handleRequest(this.Request);

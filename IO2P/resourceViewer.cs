@@ -15,8 +15,8 @@ namespace IO2P
         private String FTP_PASS = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
         public byte[] handleRequest(Nancy.Request request)
         {
-            String fileId = request.Form.fileId;
-            //fileId = request.Query["fileId"];
+            //String fileId = request.Form.fileId;
+            String fileId = request.Query["fileId"];
             String fileLocation = findResourceLocation(fileId);
             byte[] file = downloadResource(fileLocation);
             return file;
