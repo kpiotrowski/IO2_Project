@@ -18,6 +18,7 @@ namespace IO2P
             {
                 var nancyHost = new Nancy.Hosting.Self.NancyHost(new Uri("http://localhost:9664/"), new CustomBootstrapper());
                 nancyHost.Start();
+                TinyIoC.TinyIoCContainer.Current.Register<RazorViewEngine>();
                 Console.WriteLine("Web server running...");
                 DbaseMongo database = DbaseMongo.Instance;
                 database.showCollection("fileEntries");
