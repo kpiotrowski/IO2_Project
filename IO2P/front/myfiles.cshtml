@@ -32,7 +32,7 @@
          type: "POST",
          url: "http://"+window.location.host + '/removefile',
          data: {
-           "field": file_id,
+           "fileId": file_id,
          },
          success: function(msg) {
            console.log( "Return data: " + msg );
