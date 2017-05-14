@@ -17,6 +17,10 @@ namespace IO2P
         private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
         private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");
         private String FTP_PASS = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
+        List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
+        List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
+        List<String> soundExtensionsList = new List<String> { "mp3", "ogg", "3ga", "aac", "flac", "midi", "wav", "wma" };
+
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
         /// </summary>
@@ -149,9 +153,6 @@ namespace IO2P
             String[] nameparts = data.Current.Name.Split('.');
             if (nameparts.Length < 2) throw new UnknownFileExtensionException();
             String extension = nameparts[nameparts.GetLength(0) - 1].ToLowerInvariant();
-            List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
-            List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
-            List<String> soundExtensionsList = new List<String> { "mp3", "ogg", "3ga", "aac", "flac", "midi", "wav", "wma" };
             if (fileType.Equals("image"))
             {
                 if (!imageExtensionsList.Contains(extension)) throw new NotAnImageFileException();
