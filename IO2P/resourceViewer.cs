@@ -16,7 +16,7 @@ namespace IO2P
         public byte[] handleRequest(Nancy.Request request)
         {
             String fileId = request.Form.fileId;
-            //fileId = request.Query["fileId"];
+            //String fileId = request.Query["fileId"];
             String fileLocation = findResourceLocation(fileId);
             byte[] file = downloadResource(fileLocation);
             return file;
@@ -75,6 +75,14 @@ namespace IO2P
                 Console.WriteLine(ex.Message);
                 return null;
             }
+        }
+
+        internal byte[] handleGet(object id)
+        {
+            String fileId = id.ToString().Split('.')[0];
+            String fileLocation = findResourceLocation(fileId);
+            byte[] file = downloadResource(fileLocation);
+            return file;
         }
     }
 }

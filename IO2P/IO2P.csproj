@@ -164,15 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="front\css\bootstrap-theme.css.map" />
-    <None Include="front\css\bootstrap-theme.min.css.map" />
-    <None Include="front\css\bootstrap.css.map" />
-    <None Include="front\css\bootstrap.min.css.map" />
-    <None Include="front\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="front\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="front\fonts\glyphicons-halflings-regular.woff" />
-    <None Include="front\fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="front\README.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -188,25 +179,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="front\css\bootstrap-theme.css" />
-    <Content Include="front\css\bootstrap-theme.min.css" />
-    <Content Include="front\css\bootstrap.css" />
-    <Content Include="front\css\bootstrap.min.css" />
-    <Content Include="front\css\Style.css" />
-    <Content Include="front\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="front\index.html" />
-    <Content Include="front\js\bootstrap.js" />
-    <Content Include="front\js\bootstrap.min.js" />
-    <Content Include="front\js\npm.js" />
-    <Content Include="front\myfiles.html" />
-    <Content Include="front\pom.txt" />
-    <Content Include="front\upload.html" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="test\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

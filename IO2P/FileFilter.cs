@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
-
+using MongoDB.Bson.IO;
 
 namespace IO2P
 {
@@ -18,17 +18,17 @@ namespace IO2P
             var filter = builder.Eq(fileEntry.DBfileType,fileType);
 
             string name = request.Query[fileEntry.DBfileName];
-            if (!name.Equals(""))
+            if (!String.IsNullOrEmpty(name))
             {
                 filter &= builder.Regex(fileEntry.DBfileName, new BsonRegularExpression("/.*" + name + ".*/i"));
             }
             string category = request.Query[fileEntry.DBcategory];
-            if (!category.Equals(""))
+            if (!String.IsNullOrEmpty(category))
             {
                 filter &= builder.Regex(fileEntry.DBcategory, new BsonRegularExpression("/.*" + category + ".*/i"));
             }
             string extension = request.Query[fileEntry.DBfileExtenstion];
-            if (!extension.Equals(""))
+            if (!String.IsNullOrEmpty(extension))
             {
                 filter &= builder.Regex(fileEntry.DBfileExtenstion, new BsonRegularExpression("/^" + extension + "$/i"));
             }
@@ -38,7 +38,8 @@ namespace IO2P
 
             //Console.WriteLine("fileType: " + fileType + " name: " + name + " category: " + category + " extension " + extension);
             //Console.WriteLine(list.ToJson());
-            return list.ToJson();
+            var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+            return list.ToJson(jsonWriterSettings);
         }
     }
 }
