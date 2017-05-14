@@ -38,9 +38,11 @@
            console.log( "Return data: " + msg );
            $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>')
              .insertAfter(".header");
+           that.parent().remove();
            setTimeout(() => {
              $(".alert").remove();
            }, 3000);
+
          },
          error: function(xhr, ajaxOptions, thrownError) {
            console.log( "Connection error occurred!");
