@@ -78,7 +78,7 @@
               $(".listTable").append(row);
             });
 
-            $(".listTable .gallery").colorbox();
+            $(".listTable .gallery").colorbox({photo:true});
           $('<div class="alert alert-success"><strong>Success! </strong>Successfully downloaded files!</div>').insertAfter(".header");
           setTimeout(() => {
             $(".alert").remove();
