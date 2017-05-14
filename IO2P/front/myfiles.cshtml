@@ -26,14 +26,13 @@
  <script type="text/javascript">
     var deleteItem = function(that){
        selected = that.parent().siblings();
-       name = selected[1].innerText;
-       console.log(name);
+       var file_id = selected[0].innerText;
+       console.log(file_id);
        $.ajax({
          type: "POST",
          url: "http://"+window.location.host + '/removefile',
          data: {
-           filename: name,
-           action: "delete"
+           field: file_id,
          },
          success: function(msg) {
            console.log( "Return data: " + msg );
