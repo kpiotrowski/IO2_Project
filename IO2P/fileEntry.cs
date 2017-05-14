@@ -40,11 +40,28 @@ namespace IO2P
 
         public fileEntry(string filenameG, string diskname, string cName, String fileType)
         {
+           if(filenameG=="") {
+             throw new Exception("Filename cannot be empty");
+          }
+           if(filenameG.Split('.').Length<2) {
+             throw new Exception("Filename must have extension");
+          }
             filename = filenameG.Split('.')[0];
             fileExtension = filenameG.Split('.')[1];
-            localization = diskname + "/" + filenameG;
+            if(diskname=="") {
+               localization = filenameG;
+            }
+            else {
+               localization = diskname + "/" + filenameG;
+            }
             addDate = DateTime.UtcNow.ToString();
             category = cName;
+            if(cName=="") {
+               throw new Exception("Category cannot be empty");
+            }
+            if(fileType!="image" && fileType!="audio" && fileType!="video"){
+               throw new Exception("Not supported File Type");
+            }
             this.fileType = fileType;
             contentType = Nancy.MimeTypes.GetMimeType(fileExtension);
             //contentType = fileType + "/" + fileExtension;
