@@ -1,9 +1,9 @@
 
-            Get["/css/bootstrap.css"] = _ => View["front/css/bootstrap.css"];
-            Get["/css/bootstrap-theme.css"] = _ => View["front/css/bootstrap-theme.css"];
-            Get["/css/bootstrap-theme.min.css"] = _ => View["front/css/bootstrap-theme.min.css"];
-            Get["/css/bootstrap.min.css"] = _ => View["front/css/bootstrap.min.css"];
-            Get["/css/Style.css"] = _ => View["front/css/Style.css"];
-            Get["/js/bootstrap.js"] = _ => View["front/js/boostrap.js"];
-            Get["/js/bootstrap.min.js"] = _ => View["front/js/boostrap.min.js"];
-            Get["/js/npm.js"] = _ => View["front/js/npm.js"];
+Get["/css/bootstrap.css"] = _ => View["front/css/bootstrap.css"];
+Get["/css/bootstrap-theme.css"] = _ => View["front/css/bootstrap-theme.css"];
+Get["/css/bootstrap-theme.min.css"] = _ => View["front/css/bootstrap-theme.min.css"];
+Get["/css/bootstrap.min.css"] = _ => View["front/css/bootstrap.min.css"];
+Get["/css/Style.css"] = _ => View["front/css/Style.css"];
+Get["/js/bootstrap.js"] = _ => View["front/js/boostrap.js"];
+Get["/js/bootstrap.min.js"] = _ => View["front/js/boostrap.min.js"];
+Get["/js/npm.js"] = _ => View["front/js/npm.js"];

@@ -1,6 +1,7 @@
 ﻿using Nancy;
 using System.IO;
 using System.Text;
+using Nancy.ViewEngines.Razor;
 
 namespace IO2P
 {
@@ -53,7 +54,6 @@ namespace IO2P
             //     new resourceDeleter().handleRequest(this.Request);
             //    return true;
             // };
-            Post["/upload.html"] = _ => new resourceAdder().handlePost(this.Request);
             Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
             Post["/newfile"] = _ =>
             {

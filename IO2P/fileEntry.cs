@@ -46,7 +46,7 @@ namespace IO2P
             addDate = DateTime.UtcNow.ToString();
             category = cName;
             this.fileType = fileType;
-            contentType = MimeTypes.GetMimeType(filenameG);
+            contentType = Nancy.MimeTypes.GetMimeType(fileExtension);
             //contentType = fileType + "/" + fileExtension;
         }
 
