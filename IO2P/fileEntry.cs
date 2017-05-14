@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Nancy;
 using System;
 
 namespace IO2P
@@ -10,22 +11,30 @@ namespace IO2P
     [BsonIgnoreExtraElements]
     class fileEntry
     {
+        public const string DBfileName = "filename";
+        public const string DBfileExtenstion = "fileExtension";
+        public const string DBdate = "date";
+        public const string DBlocalization = "localization";
+        public const string DBcategory = "category";
+        public const string DBfileType = "fileType";
+        public const string DBcontentType = "contentType";
+
         [BsonId]
         public ObjectId ID { get; set; }
-        [BsonElement("filename")]
+        [BsonElement(DBfileName)]
         public string filename { get; set; }
-        [BsonElement("fileExtension")]
+        [BsonElement(DBfileExtenstion)]
         public string fileExtension { get; set; }
-        [BsonElement("localization")]
+        [BsonElement(DBlocalization)]
         public string localization { get; set; }
-        [BsonElement("date")]
+        [BsonElement(DBdate)]
         public string addDate { get; set; }
         //public DateTime addDate { get; set; }
-        [BsonElement("category")]
+        [BsonElement(DBcategory)]
         public string category { get; set;  }
-        [BsonElement("fileType")]
+        [BsonElement(DBfileType)]
         public string fileType { get; set; }
-        [BsonElement("contentType")]
+        [BsonElement(DBcontentType)]
         public string contentType { get; set; }
 
 

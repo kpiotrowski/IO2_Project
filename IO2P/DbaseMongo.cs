@@ -13,6 +13,8 @@ namespace IO2P
     /// </summary>
     class DbaseMongo
     {
+        public const string DefaultCollection = "fileEntries2"; 
+   
         private static DbaseMongo instance;
         private IMongoDatabase database;
         private IMongoClient client;
@@ -22,6 +24,7 @@ namespace IO2P
         private static string host = Environment.ExpandEnvironmentVariables("%DB_HOST%");
         private static string port = Environment.ExpandEnvironmentVariables("%DB_PORT%");
         private static string databaseName = Environment.ExpandEnvironmentVariables("%DB_NAME%");
+
 
         private DbaseMongo()
         {

@@ -145,6 +145,7 @@
     <Compile Include="DbaseMongo.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="fileEntry.cs" />
+    <Compile Include="FileFilter.cs" />
     <Compile Include="nancyTest.cs" />
     <Compile Include="NotAnImageFileException.cs" />
     <Compile Include="NotASoundFileException.cs" />

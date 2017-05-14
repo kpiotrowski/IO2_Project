@@ -24,7 +24,7 @@ namespace IO2P
         {
             try
             {
-                IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>("fileEntries");
+                IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>(DbaseMongo.DefaultCollection);
                 FilterDefinition<fileEntry> filter = new BsonDocument("_id", ObjectId.Parse(fileId));
                 fileEntry Entry = collection.FindOneAndDelete<fileEntry>(filter);
                 return Entry.localization;

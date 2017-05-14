@@ -1,5 +1,6 @@
 ﻿using Nancy;
 using System.IO;
+using System.Text;
 using Nancy.ViewEngines.Razor;
 
 namespace IO2P
@@ -14,9 +15,22 @@ namespace IO2P
         /// </summary>
         public nancyTest()
         {
-            Get["/"] = _ => View["front/index.cshtml"];
-            Get["/listfiles"] = _ => View["front/myfiles.cshtml"];
-            Get["/newfile"] = _ => View["front/upload.cshtml"];
+            Get["/"] = _ => View["front/index.html"];
+            Get["/index.html"] = _ => View["front/index.html"];
+            Get["/myfiles.html"] = _ => View["front/myfiles.html"];
+            Get["/listfiles/{fileType}"] = param =>
+            {
+                FileFilter filter = new FileFilter();
+                return filter.filterFileCollection(param.fileType, this.Request);
+                //var jsonBytes = Encoding.UTF8.GetBytes(json);
+                //return new Response
+                //{
+                //    ContentType = "application/json",
+                //    Contents = s => s.Write(jsonBytes, 0, jsonBytes.Length)
+                //};
+            };
+            Get["/upload.html"] = _ => View["front/upload.html"];
+            Get["/newfile"] = _ => View["front/upload.html"];
             // Get["/getfile"] = _ =>
             // {
             //     string contentType = this.Request.Query["contentType"];
