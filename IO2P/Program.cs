@@ -1,7 +1,6 @@
 ﻿using System;
 using Nancy.Conventions;
 using MongoDB.Bson;
-using TinyIoC;
 
 namespace IO2P
 {
