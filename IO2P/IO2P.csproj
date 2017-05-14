@@ -164,21 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="front\css\bootstrap-theme.css.map" />
-    <None Include="front\css\bootstrap-theme.min.css.map" />
-    <None Include="front\css\bootstrap.css.map" />
-    <None Include="front\css\bootstrap.min.css.map" />
-    <None Include="front\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="front\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="front\fonts\glyphicons-halflings-regular.woff" />
-    <None Include="front\fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="front\index.cshtml" />
-    <None Include="front\mainWrapper.cshtml" />
-    <None Include="front\myaudio.cshtml" />
-    <None Include="front\myfiles.cshtml" />
-    <None Include="front\myimages.cshtml" />
-    <None Include="front\myvideo.cshtml" />
-    <None Include="front\upload.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -192,20 +177,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="front\css\bootstrap-theme.css" />
-    <Content Include="front\css\bootstrap-theme.min.css" />
-    <Content Include="front\css\bootstrap.css" />
-    <Content Include="front\css\bootstrap.min.css" />
-    <Content Include="front\css\Style.css" />
-    <Content Include="front\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="front\js\bootstrap.js" />
-    <Content Include="front\js\bootstrap.min.js" />
-    <Content Include="front\js\npm.js" />
-    <Content Include="front\myfilesBC.html" />
-    <Content Include="front\pom.txt" />
-    <Content Include="front\upload.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
