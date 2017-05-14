@@ -59,10 +59,9 @@
    var loadFiles = function(category){
       $.ajax({
         type: "GET",
-        url: window.location.host + '/listfiles/'+category,
-
+        url: "http://"+window.location.host + '/listfiles/'+category,
         success: function(data) {
-           $('.tableLoader').remove()
+          $('.tableLoader').remove()
           $.each(data, function(index, itemData) {
              var row = "<tr></tr>";
              row.append("<td>"+itemData.filename+"</td>")
@@ -75,17 +74,15 @@
 
               $(".listTable").append(row);
             });
-          $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>')
-            .insertAfter(".header");
+          $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>').insertAfter(".header");
           setTimeout(() => {
             $(".alert").remove();
           }, 3000);
         },
         error: function(xhr, ajaxOptions, thrownError) {
-           $('.tableLoader').remove()
+          $('.tableLoader').remove();
           console.log( "Connection error occurred!");
-          $('<div class="alert alert-danger"><strong>Danger! </strong>Connection error occured!</div>')
-            .insertAfter(".header");
+          $('<div class="alert alert-danger"><strong>Danger! </strong>Connection error occured!</div>').insertAfter(".header");
           setTimeout(() => {
             $(".alert").remove();
           }, 3000);
