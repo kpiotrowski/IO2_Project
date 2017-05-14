@@ -64,10 +64,8 @@
           $.each(JSON.parse(data), function(index, itemData) {
              var row = $("<tr></tr>");
               if(category=='image'){
-                 td = $("<td></td>");
-                 link = $("<a class='gallery' href='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>"+itemData._id.$oid+"</a>")
-                 td.append(link);
-                 row.append(td);
+                 link = $("<td><a class='gallery' href='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>"+itemData._id.$oid+"</a></td>")
+                 row.append(link);
               } else {
                  row.append("<td>"+itemData._id.$oid+"</td>");
               }
@@ -78,8 +76,9 @@
               row.append("<td>"+"<button class='btn btn-default'>Edytuj</button>"+"<button onclick='deleteItem($(this))' class='btn btn-danger del-btn'>Usuń</button>"+"</td>");
 
               $(".listTable").append(row);
-              link.colorbox();
             });
+
+            $(".listTable .gallery").colorbox();
           $('<div class="alert alert-success"><strong>Success! </strong>Successfully downloaded files!</div>').insertAfter(".header");
           setTimeout(() => {
             $(".alert").remove();
