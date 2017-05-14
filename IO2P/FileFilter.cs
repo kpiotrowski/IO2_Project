@@ -35,7 +35,7 @@ namespace IO2P
 
             List<BsonDocument> list = new List<BsonDocument>();
             DbaseMongo.Instance.getCollection(list, DbaseMongo.DefaultCollection, filter);
-
+            
             //Console.WriteLine("fileType: " + fileType + " name: " + name + " category: " + category + " extension " + extension);
             //Console.WriteLine(list.ToJson());
             var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };

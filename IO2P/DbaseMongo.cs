@@ -96,6 +96,7 @@ namespace IO2P
             var collection = this.db.GetCollection<T>(name);
             list.AddRange(collection.Find(filter).ToList());
         }
+
         /// <summary>
         /// Metoda zwracająca zadaną kolekcje z bazy
         /// </summary>
