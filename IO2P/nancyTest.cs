@@ -16,7 +16,7 @@ namespace IO2P
         {
             Get["/"] = _ => View["front/index.cshtml"];
             Get["/listfiles"] = _ => View["front/myfiles.cshtml"];
-            Get["/newfile"] = _ => View["front/upload.html"];
+            Get["/newfile"] = _ => View["front/upload.cshtml"];
             // Get["/getfile"] = _ =>
             // {
             //     string contentType = this.Request.Query["contentType"];
