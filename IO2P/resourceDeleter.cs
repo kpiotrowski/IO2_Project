@@ -6,7 +6,7 @@ using System.Net;
 
 namespace IO2P
 {
-    class resourceDeleter
+    class resourceDeleter : InterfaceDel
     {
         private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
         private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");

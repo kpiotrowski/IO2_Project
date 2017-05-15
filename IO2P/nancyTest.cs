@@ -58,12 +58,12 @@ namespace IO2P
             //     new resourceDeleter().handleRequest(this.Request);
             //    return true;
             // };
-            Post["/newfile"] = _ => new resourceAdder().handlePost(this.Request);
+            Post["/newfile"] = _ => new resourceAdder(new resourceDeleter()).handlePost(this.Request);
             Post["/newfile"] = _ =>
             {
                 try
                 {
-                    new resourceAdder().handlePost(this.Request);
+                    new resourceAdder(new resourceDeleter()).handlePost(this.Request);
                 }
                 catch(UnknownFileExtensionException)
                 {
