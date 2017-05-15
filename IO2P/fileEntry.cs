@@ -38,7 +38,7 @@ namespace IO2P
         public string contentType { get; set; }
 
 
-        public fileEntry(string filenameG, string diskname, string cName, String fileType)
+        public fileEntry(string filenameG, string diskname, string cName, string fileType)
         {
            if(filenameG=="") {
              throw new Exception("Filename cannot be empty");
@@ -59,11 +59,11 @@ namespace IO2P
             if(cName=="") {
                throw new Exception("Category cannot be empty");
             }
-            if(fileType!="image" && fileType!="audio" && fileType!="video"){
+            if(!fileType.Equals("image") && !fileType.Equals("audio") && !fileType.Equals("video")){
                throw new Exception("Not supported File Type");
             }
             this.fileType = fileType;
-            contentType = Nancy.MimeTypes.GetMimeType(fileExtension);
+            contentType = Nancy.MimeTypes.GetMimeType(filenameG);
             //contentType = fileType + "/" + fileExtension;
         }
 

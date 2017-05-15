@@ -172,7 +172,10 @@
     <Compile Include="resourceAdder.cs" />
     <Compile Include="resourceDeleter.cs" />
     <Compile Include="resourceViewer.cs" />
+    <Compile Include="test\FileEntryTest.cs" />
     <Compile Include="test\ResourceAdderTest.cs" />
+    <Compile Include="test\resourceDeleterTest.cs" />
+    <Compile Include="test\ResourceViewerTest.cs" />
     <Compile Include="UnknownFileExtensionException.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +229,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

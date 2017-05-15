@@ -15,32 +15,33 @@ namespace IO2P.test
     {
       [Test]
       public void addFilenameWithExtensionCorrect(){
-         fileEntry file = new fileEntry("plik.jpg", "folder", "image", "typ");
-         Assert.Equals("plik",file.getFilename());
-         Assert.Equals("jpg",file.getFileExtension());
-         Assert.Equals("image", file.getCategory());
-         Assert.Equals("typ", file.getFileType());
+         fileEntry file = new fileEntry("plik.jpg", "folder", "cat", "audio");
+            StringAssert.AreEqualIgnoringCase("plik",file.filename);
+            StringAssert.AreEqualIgnoringCase("jpg",file.fileExtension);
+            StringAssert.AreEqualIgnoringCase("cat", file.category);
+            StringAssert.AreEqualIgnoringCase("audio", file.fileType);
       }
 
       [Test]
       public void addFilenameWithoutExtension(){
-         Assert.Throws<Exception>(() => new fileEntry("plik", "folder", "image", "image"));
+         Assert.Throws<Exception>(() => new fileEntry("plik", "folder", "cat", "image"));
       }
 
       [Test]
       public void emptyFilename(){
-         Assert.Throws<Exception>(() => new fileEntry("", "folder", "image", "image"));
+         Assert.Throws<Exception>(() => new fileEntry("", "folder", "cat", "image"));
       }
 
       [Test]
       public void testSetLocalizationNoFolder(){
-         fileEntry file = new fileEntry("plik.png", "", "image", "image");
-         Assert.Equals("plik.png",file.getLocalization());
+         fileEntry file = new fileEntry("plik.png", "", "cat", "image");
+            StringAssert.AreEqualIgnoringCase("plik.png",file.localization);
       }
 
+      [Test]
       public void testSetLocalizationWithPath(){
-         fileEntry file = new fileEntry("plik.png", "folder/folder", "image", "image");
-         Assert.Equals("folder/folder/plik.png",file.getLocalization());
+         fileEntry file = new fileEntry("plik.png", "folder/folder", "cat", "image");
+            StringAssert.AreEqualIgnoringCase("folder/folder/plik.png",file.localization);
       }
 
       [Test]
@@ -61,13 +62,13 @@ namespace IO2P.test
       [Test]
       public void testGetMimeTypePng(){
          fileEntry file = new fileEntry("plik.png", "folder", "image", "image");
-         Assert.Equals("image/png",file.getContentType());
+         StringAssert.AreEqualIgnoringCase("image/png",file.contentType);
       }
 
       [Test]
       public void testGetMimeTypeNotKnown(){
          fileEntry file = new fileEntry("plik.jakiesdziwneinieznanerozszerzenie", "folder", "image", "image");
-         Assert.Equals("application/octet-stream",file.getContentType());
+         StringAssert.AreEqualIgnoringCase("application/octet-stream",file.contentType);
       }
     }
 }

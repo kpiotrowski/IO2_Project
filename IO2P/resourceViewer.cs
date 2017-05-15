@@ -53,12 +53,16 @@ namespace IO2P
             return contentType;
         }
 
-        private string findResourceLocation(string fileId)
+        public string findResourceLocation(string fileId)
         {
             try
             {
                 IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>(DbaseMongo.DefaultCollection);
                 FilterDefinition<fileEntry> filter = new BsonDocument("_id", ObjectId.Parse(fileId));
+                if (String.IsNullOrEmpty(fileId) || String.IsNullOrWhiteSpace(fileId))
+                {
+                    throw new Exception("fileId is empty");
+                }
                 IAsyncCursor<fileEntry> find = collection.FindSync<fileEntry>(filter);
                 fileEntry Entry = null;
                 if((Entry = find.First<fileEntry>()) != null)

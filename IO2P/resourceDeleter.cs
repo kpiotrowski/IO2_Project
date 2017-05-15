@@ -20,11 +20,15 @@ namespace IO2P
             return true;
         }
 
-        private string findAndDeleteResourceLocation(string fileId)
+        public string findAndDeleteResourceLocation(string fileId)
         {
             try
             {
                 IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>(DbaseMongo.DefaultCollection);
+                if(String.IsNullOrEmpty(fileId) || String.IsNullOrWhiteSpace(fileId))
+                {
+                    throw new Exception("fileId is empty");
+                }
                 FilterDefinition<fileEntry> filter = new BsonDocument("_id", ObjectId.Parse(fileId));
                 fileEntry Entry = collection.FindOneAndDelete<fileEntry>(filter);
                 return Entry.localization;
