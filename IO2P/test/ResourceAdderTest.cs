@@ -23,7 +23,7 @@ namespace IO2P.test
         {
             this.dbMock = new Mock<IMongoDatabase>();
             this.dbCollection = new Mock<IMongoCollection<fileEntry>>();
-            this.resourceAdder = new resourceAdder();
+            this.resourceAdder = new resourceAdder(new resourceDeleter());
             this.resourceAdder.FTP_HOST = "";
             this.resourceAdder.FTP_PASS = "";
             this.resourceAdder.FTP_USER = "";

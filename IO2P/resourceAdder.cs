@@ -13,6 +13,7 @@ namespace IO2P
     /// </summary>
     class resourceAdder
     {
+        private InterfaceDel Deleter;
 
         public String FTP_HOST { get; set; } = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
         public String FTP_USER { get; set; } = Environment.ExpandEnvironmentVariables("%FTP_USER%");
@@ -20,6 +21,11 @@ namespace IO2P
         List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
         List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
         List<String> soundExtensionsList = new List<String> { "mp3", "ogg", "3ga", "aac", "flac", "midi", "wav", "wma" };
+
+        public resourceAdder(InterfaceDel del)
+        {
+            Deleter = del;
+        }
 
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
@@ -130,7 +136,7 @@ namespace IO2P
             {
                 File.Delete(filename);
             }
-            else new resourceDeleter().removeResource(diskname + "/" + filename);
+            else Deleter.removeResource(diskname + "/" + filename);
             return true;
         }
 
