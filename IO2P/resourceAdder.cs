@@ -13,13 +13,19 @@ namespace IO2P
     /// </summary>
     class resourceAdder
     {
+        private InterfaceDel Deleter;
 
-        private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
-        private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");
-        private String FTP_PASS = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
+        public String FTP_HOST { get; set; } = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
+        public String FTP_USER { get; set; } = Environment.ExpandEnvironmentVariables("%FTP_USER%");
+        public String FTP_PASS { get; set; } = Environment.ExpandEnvironmentVariables("%FTP_PASS%");
         List<String> imageExtensionsList = new List<String> { "jpg", "png", "bmp", "gif", "svg", "jpe", "jpeg", "tiff" };
         List<String> videoExtensionsList = new List<String> { "aec", "bik", "m4e", "m75", "m4v", "mp4", "mp4v", "ogv" };
         List<String> soundExtensionsList = new List<String> { "mp3", "ogg", "3ga", "aac", "flac", "midi", "wav", "wma" };
+
+        public resourceAdder(InterfaceDel del)
+        {
+            Deleter = del;
+        }
 
         /// <summary>
         /// Zapisuje na dysku zdalnym obraz/wideo nadesłany przez użytkownika i dodaje go do bazy danych.
@@ -40,7 +46,7 @@ namespace IO2P
                 }
                 return false;
             }
-            return true;
+            return true;    
         }
 
         /// <summary>
@@ -130,7 +136,7 @@ namespace IO2P
             {
                 File.Delete(filename);
             }
-            else return true; //call to resourceRemover (not in this sprint)
+            else Deleter.removeResource(diskname + "/" + filename);
             return true;
         }
 
@@ -150,6 +156,7 @@ namespace IO2P
             Stream fileStream = data.Current.Value;
             byte[] buffer = new byte[fileStream.Length];
             fileStream.Read(buffer, 0, buffer.Length);
+           
             String[] nameparts = data.Current.Name.Split('.');
             if (nameparts.Length < 2) throw new UnknownFileExtensionException();
             String extension = nameparts[nameparts.GetLength(0) - 1].ToLowerInvariant();

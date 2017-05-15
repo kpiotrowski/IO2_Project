@@ -6,7 +6,7 @@ using System.Net;
 
 namespace IO2P
 {
-    class resourceDeleter
+    class resourceDeleter : InterfaceDel
     {
         private String FTP_HOST = Environment.ExpandEnvironmentVariables("%FTP_HOST%");
         private String FTP_USER = Environment.ExpandEnvironmentVariables("%FTP_USER%");
@@ -20,11 +20,15 @@ namespace IO2P
             return true;
         }
 
-        private string findAndDeleteResourceLocation(string fileId)
+        public string findAndDeleteResourceLocation(string fileId)
         {
             try
             {
                 IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>(DbaseMongo.DefaultCollection);
+                if(String.IsNullOrEmpty(fileId) || String.IsNullOrWhiteSpace(fileId))
+                {
+                    throw new Exception("fileId is empty");
+                }
                 FilterDefinition<fileEntry> filter = new BsonDocument("_id", ObjectId.Parse(fileId));
                 fileEntry Entry = collection.FindOneAndDelete<fileEntry>(filter);
                 return Entry.localization;
@@ -36,7 +40,7 @@ namespace IO2P
             }
         }
 
-        private void removeResource(string fileLocation)
+        public void removeResource(string fileLocation)
         {
             FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(fileLocation));
             ftpReq.Method = WebRequestMethods.Ftp.DeleteFile;

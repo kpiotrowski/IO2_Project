@@ -10,6 +10,7 @@ namespace IO2P
     [Serializable]
     internal class NotAnImageFileException : Exception
     {
+        /*
         public NotAnImageFileException()
         {
         }
@@ -24,6 +25,6 @@ namespace IO2P
 
         protected NotAnImageFileException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-        }
+        }*/
     }
 }
