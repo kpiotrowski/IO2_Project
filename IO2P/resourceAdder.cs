@@ -150,6 +150,7 @@ namespace IO2P
             Stream fileStream = data.Current.Value;
             byte[] buffer = new byte[fileStream.Length];
             fileStream.Read(buffer, 0, buffer.Length);
+           
             String[] nameparts = data.Current.Name.Split('.');
             if (nameparts.Length < 2) throw new UnknownFileExtensionException();
             String extension = nameparts[nameparts.GetLength(0) - 1].ToLowerInvariant();

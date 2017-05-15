@@ -173,6 +173,7 @@
     <Compile Include="resourceDeleter.cs" />
     <Compile Include="resourceViewer.cs" />
     <Compile Include="test\FileEntryTest.cs" />
+    <Compile Include="test\NancyTest.cs" />
     <Compile Include="test\ResourceAdderTest.cs" />
     <Compile Include="test\resourceDeleterTest.cs" />
     <Compile Include="test\ResourceViewerTest.cs" />

@@ -8,7 +8,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using Nancy;
-using System.Net.Http;
 
 namespace IO2P.test
 {
@@ -38,12 +37,6 @@ namespace IO2P.test
             dbMock.Setup(db => db.GetCollection<fileEntry>(DbaseMongo.DefaultCollection, null)).Returns(dbCollection.Object);
             DbaseMongo.Instance.db = dbMock.Object;
             Assert.False(this.resourceAdder.addDatabaseEntry("test", "folder", "image", "cat"));
-        }
-
-        public void handlePost_WrongImage()
-        {
-            Mock<HttpRequestMessage> moqRequest = new Mock<HttpRequestMessage>();
-            
         }
     }
 }
