@@ -9,6 +9,7 @@ namespace IO2P
     [Serializable]
     internal class NotAVideoFileException : Exception
     {
+        /*
         public NotAVideoFileException()
         {
         }
@@ -23,6 +24,6 @@ namespace IO2P
 
         protected NotAVideoFileException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-        }
+        }*/
     }
 }

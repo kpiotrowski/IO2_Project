@@ -10,6 +10,7 @@ namespace IO2P
     [Serializable]
     internal class NotASoundFileException : Exception
     {
+        /*
         public NotASoundFileException()
         {
         }
@@ -24,6 +25,6 @@ namespace IO2P
 
         protected NotASoundFileException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-        }
+        }*/
     }
 }

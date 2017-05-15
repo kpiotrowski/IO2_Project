@@ -9,6 +9,7 @@ namespace IO2P
     [Serializable]
     internal class UnknownFileExtensionException : Exception
     {
+        /*
         public UnknownFileExtensionException()
         {
         }
@@ -23,6 +24,6 @@ namespace IO2P
 
         protected UnknownFileExtensionException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-        }
+        }*/
     }
 }
