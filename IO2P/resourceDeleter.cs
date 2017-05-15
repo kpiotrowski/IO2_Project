@@ -40,7 +40,7 @@ namespace IO2P
             }
         }
 
-        private void removeResource(string fileLocation)
+        public void removeResource(string fileLocation)
         {
             FtpWebRequest ftpReq = (FtpWebRequest)FtpWebRequest.Create(new Uri(fileLocation));
             ftpReq.Method = WebRequestMethods.Ftp.DeleteFile;

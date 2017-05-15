@@ -130,7 +130,7 @@ namespace IO2P
             {
                 File.Delete(filename);
             }
-            else return true; //call to resourceRemover (not in this sprint)
+            else new resourceDeleter().removeResource(diskname + "/" + filename);
             return true;
         }
 
