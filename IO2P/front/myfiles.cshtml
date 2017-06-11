@@ -73,6 +73,7 @@
                  row.append(audio);
               }
                else{
+                 link = $("<td><a class='videos' href='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>"+itemData._id.$oid+"</a></td>")
                  row.append("<td>"+itemData._id.$oid+"</td>");
               }
               row.append("<td>"+itemData.filename+"."+itemData.fileExtension+"</td>")
@@ -85,6 +86,7 @@
             });
 
             $(".listTable .gallery").colorbox({photo:true});
+            $(".listTable .videos").colorbox({iframe:true});
           $('<div class="alert alert-success"><strong>Success! </strong>Successfully downloaded files!</div>').insertAfter(".header");
           setTimeout(() => {
             $(".alert").remove();
