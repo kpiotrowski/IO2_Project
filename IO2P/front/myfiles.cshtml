@@ -74,7 +74,7 @@
               }
                else{
                  link = $("<td><a class='videos' href='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>"+itemData._id.$oid+"</a></td>")
-                 row.append("<td>"+itemData._id.$oid+"</td>");
+                 row.append(link);
               }
               row.append("<td>"+itemData.filename+"."+itemData.fileExtension+"</td>")
               row.append("<td>"+itemData.fileType+"</td>")
