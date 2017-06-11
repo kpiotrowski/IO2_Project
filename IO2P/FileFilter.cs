@@ -12,6 +12,7 @@ namespace IO2P
 {
     class FileFilter
     {
+        public const string SortingList = "sortingList";
         public const string asc = "ASC";
         public const string desc = "DESC";
 
@@ -37,7 +38,14 @@ namespace IO2P
             }
 
             List<BsonDocument> list = new List<BsonDocument>();
-            DbaseMongo.Instance.getCollection(list, DbaseMongo.DefaultCollection, filter);
+            string[][] sortList = request.Query[FileFilter.SortingList];
+            SortDefinition<BsonDocument> sort = null;
+            if (sortList != null && sortList.Length > 0)
+            {
+                sort = createSortDefinition<BsonDocument>(sort, sortList, 0);
+
+            }
+            DbaseMongo.Instance.getCollection(list, DbaseMongo.DefaultCollection, filter,sort);
             
             //Console.WriteLine("fileType: " + fileType + " name: " + name + " category: " + category + " extension " + extension);
             //Console.WriteLine(list.ToJson());
@@ -45,19 +53,25 @@ namespace IO2P
             return list.ToJson(jsonWriterSettings);
         }
 
-        public SortDefinition<BsonDocument> sortList(SortDefinition<BsonDocument> sort, String[][] sortingList, int i)
+        public SortDefinition<T> createSortDefinition<T>(SortDefinition<T> sort, String[][] sortingList, int i)
         {
             if (sortingList.Length <= i) return sort;
             else if (sortingList[i].Length < 3) return null;
             else if (String.IsNullOrEmpty(sortingList[i][0]) || String.IsNullOrEmpty(sortingList[i][1])) return null;
             else if (FileFilter.asc.Equals(sortingList[i][1])){
-                sort.Ascending(sortingList[i][0]);
-                return sortList(sort, sortingList, i++);
+                if (sort == null)
+                    sort = Builders<T>.Sort.Ascending(sortingList[i][0]);
+                else
+                    sort.Ascending(sortingList[i][0]);
+                return createSortDefinition(sort, sortingList, i++);
             }
             else if (FileFilter.desc.Equals(sortingList[i][1]))
             {
-                sort.Descending(sortingList[i][0]);
-                return sortList(sort, sortingList, i++);
+                if (sort == null)
+                    sort = Builders<T>.Sort.Descending(sortingList[i][0]);
+                else
+                    sort.Descending(sortingList[i][0]);
+                return createSortDefinition(sort, sortingList, i++);
             }
             else return null;
         }
