@@ -60,9 +60,7 @@
    var loadFiles = function(category){
       $.ajax({
         type: "GET",
-        url: "http://" + window.location.host + '/listfiles/' + category,
-        contentType: 'application/json; charset=utf-8',
-        data: { filename: "em",sortingList: "fileExtension,ASC|filename,DESC" },
+        url: "http://"+window.location.host + '/listfiles/'+category,
         success: function(data) {
           $('.tableLoader').remove()
           $.each(JSON.parse(data), function(index, itemData) {
