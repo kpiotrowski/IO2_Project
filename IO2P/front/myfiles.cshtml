@@ -72,9 +72,12 @@
                  audio = $("<td><audio controls src='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>Not supported</audio></td>");
                  row.append(audio);
               }
-               else{
-                 link = $("<td><a class='videos' href='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>"+itemData._id.$oid+"</a></td>")
-                 row.append(link);
+              else {
+                  var $video = '<div style="text-align:center"><video controls="" width:"600" height:"400" name="media"><source src="http://' + window.location.host + '/getfile/' + itemData._id.$oid + '" ></video></div>';
+
+                  link = $("<td><a style='curser:pointer' href='#' class='videos'>" + itemData._id.$oid + "</a></td>")
+                  link.colorbox({inline:true, href:$video, width:'700px', height:'550px'})
+                  row.append(link);
               }
               row.append("<td>"+itemData.filename+"."+itemData.fileExtension+"</td>")
               row.append("<td>"+itemData.fileType+"</td>")
@@ -84,9 +87,9 @@
 
               $(".listTable").append(row);
             });
+         // $(".listTable .videos").colorbox({ inframe: true, width:'600px', height:'400px' });
 
             $(".listTable .gallery").colorbox({photo:true});
-            $(".listTable .videos").colorbox({iframe:true, width:'600px', height:'400px'});
           $('<div class="alert alert-success"><strong>Success! </strong>Successfully downloaded files!</div>').insertAfter(".header");
           setTimeout(() => {
             $(".alert").remove();
