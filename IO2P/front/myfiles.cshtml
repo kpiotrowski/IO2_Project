@@ -1,27 +1,58 @@
 @{
   Layout="front/mainWrapper.cshtml";
 }
+<style>
+    .sort{
+        color:#337ab7;
+        cursor:pointer;
+        margin-right:10px;
+        padding-right:10px;
+    }
+    .desc::after{
+        content:"      \f063";
+        font-family: FontAwesome;
+    }
+    .asc::after{
+        content:"      \f062";
+        font-family: FontAwesome;
+    }
+    .alert{
+        position:absolute;
+        opacity:0.8;
+        width:100%;
+        text-align:center;
+        top:0px;
+    }
 
- <div class="content">
+</style>
+ <div class="content" style="position:relative">
      <h1 class="header">@RenderSection("title", true)</h1>
-     <table class="table">
-         <thead>
-         <tr>
-             <th>#</th>
-             <th>Nazwa pliku</th>
-             <th>Typ</th>
-             <th>Rozmiar</th>
-             <th>Data przesłania</th>
-             <th>Akcje</th>
-         </tr>
-         </thead>
-         <tbody class="listTable">
-            <tr class="tableLoader"><td colspan="6">
-               <div class="loader"></div>
-            </td></tr>
-         </tbody>
-     </table>
- </div>
+     <div class="form-inline" style="float:right">
+
+         <input type="text" class="form-control searchInput" searchName="filename" placeholder="nazwa pliku"/>
+         <input type="text" class="form-control searchInput" searchName="fileExtension" placeholder="rozszerzenie"/>
+         <button type="submit" class="search btn btn-primary">SEARCH</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th class="sort currSort" sort="none" name="filename">Nazwa pliku</th>
+                <th class="sort" sort="none" name="fileType">Typ</th>
+                <th>Rozmiar</th>
+                <th class="sort" sort="none" name="date">Data przesłania</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody class="listTable">
+            <tr class="tableLoader">
+                <td colspan="6">
+                    <div class="loader"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
  <script type="text/javascript">
     var deleteItem = function(that){
@@ -41,7 +72,7 @@
            that.parent().parent().remove();
            setTimeout(() => {
              $(".alert").remove();
-           }, 3000);
+           }, 2000);
 
          },
          error: function(xhr, ajaxOptions, thrownError) {
@@ -50,16 +81,65 @@
              .insertAfter(".header");
            setTimeout(() => {
              $(".alert").remove();
-           }, 3000);
+           }, 2000);
          }
        });
     }
+
+    $(document).ready(function () {
+        $('.sort').click(function(){
+            var sort = $(this).attr('sort');
+            $('.sort').attr('sort', 'none');
+            $('.sort').removeClass('asc');
+            $('.sort').removeClass('desc');
+            $('.sort').removeClass('currSort');
+            var name = $(this).attr('name');
+            var category = $('.content').attr('category');
+            if (sort == 'asc') {
+                sort = 'desc';
+                $(this).addClass('desc');
+            } else if (sort == 'desc') {
+                sort = 'none';
+            } else {
+                sort = 'asc';
+                $(this).addClass('asc');
+            }
+            $(this).attr('sort', sort);
+            $(this).addClass('currSort');
+            $('.search').trigger('click');
+        });
+
+        $('.search').click(function () {
+            var sort = $('.currSort').attr('sort');
+            var sortName = $('.currSort').attr('name');
+            var category = $('.content').attr('category');
+
+
+            var filterData = {};
+            if (sort == 'asc') {
+                filterData.sortingList = sortName + ',ASC';
+            } else if (sort == 'desc') {
+                filterData.sortingList = sortName + ',DESC';
+            }
+            $('.searchInput').each(function () {
+                if ($(this).val()) {
+                    filterData[$(this).attr('searchName')] = $(this).val();
+                }
+            });
+
+            loadFiles(category, filterData);
+        });
+    });
+
  </script>
 
 <script>
-   var loadFiles = function(category){
+    var loadFiles = function (category, data) {
+        $('.content').attr('category', category);
+        $('.listTable').html('<tr class="tableLoader"><td colspan="6"><div class="loader"></div></td></tr>');
       $.ajax({
-        type: "GET",
+          type: "GET",
+          data: data,
         url: "http://"+window.location.host + '/listfiles/'+category,
         success: function(data) {
           $('.tableLoader').remove()
