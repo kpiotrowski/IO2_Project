@@ -48,6 +48,13 @@ namespace IO2P
                 string contentType = resView.getContentType();
                 return Response.FromByteArray(file, contentType);
             };
+            Get["/getfile/{id}"] = x =>
+            {
+                resourceViewer resView = new resourceViewer();
+                byte[] file = resView.handleGet(x.id);
+                string contentType = resView.getContentType();
+                return Response.FromByteArray(file, contentType);
+            };
             Post["/removefile"] = _ =>
             {
                new resourceDeleter().handleRequest(this.Request);
@@ -58,6 +65,11 @@ namespace IO2P
             //     new resourceDeleter().handleRequest(this.Request);
             //    return true;
             // };
+            Put["/editfile/{id}"] = x =>
+            {
+                return new resourceEditer().handleRequest(this.Request, x.id);
+            };
+            Get["/editfile"] = _ => View["front/editform.cshtml"];
             Post["/newfile"] = _ => new resourceAdder(new resourceDeleter()).handlePost(this.Request);
             Post["/newfile"] = _ =>
             {
@@ -81,7 +93,7 @@ namespace IO2P
                 {
                     return "Załączony plik nie jest dźwiękiem";
                 }
-                return View["front/myfiles.html"];
+                return View["front/index.cshtml"];
             };
         }
 

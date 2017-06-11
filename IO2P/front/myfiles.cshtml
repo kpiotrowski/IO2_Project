@@ -26,21 +26,23 @@
  <script type="text/javascript">
     var deleteItem = function(that){
        selected = that.parent().siblings();
-       var file_id = selected[0].innerText;
+       var file_id = that.parent().parent().attr('itemid');
        console.log(file_id);
        $.ajax({
          type: "POST",
          url: "http://"+window.location.host + '/removefile',
          data: {
-           field: file_id,
+           "fileId": file_id,
          },
          success: function(msg) {
            console.log( "Return data: " + msg );
            $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>')
              .insertAfter(".header");
+           that.parent().parent().remove();
            setTimeout(() => {
              $(".alert").remove();
            }, 3000);
+
          },
          error: function(xhr, ajaxOptions, thrownError) {
            console.log( "Connection error occurred!");
@@ -62,8 +64,21 @@
         success: function(data) {
           $('.tableLoader').remove()
           $.each(JSON.parse(data), function(index, itemData) {
-             var row = $("<tr></tr>");
-              row.append("<td>"+itemData._id.$oid+"</td>")
+             var row = $("<tr itemid='"+itemData._id.$oid+"'></tr>");
+              if(category=='image'){
+                 link = $("<td><a class='gallery' href='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>"+itemData._id.$oid+"</a></td>")
+                 row.append(link);
+              } else if (category =='audio'){
+                 audio = $("<td><audio controls src='"+"http://"+window.location.host+"/getfile/"+itemData._id.$oid+"'>Not supported</audio></td>");
+                 row.append(audio);
+              }
+              else {
+                  var $video = '<div style="text-align:center"><video controls="" width:"600" height:"400" name="media"><source src="http://' + window.location.host + '/getfile/' + itemData._id.$oid + '" ></video></div>';
+
+                  link = $("<td><a style='curser:pointer' href='#' class='videos'>" + itemData._id.$oid + "</a></td>")
+                  link.colorbox({inline:true, href:$video, width:'700px', height:'550px'})
+                  row.append(link);
+              }
               row.append("<td>"+itemData.filename+"."+itemData.fileExtension+"</td>")
               row.append("<td>"+itemData.fileType+"</td>")
               row.append("<td>"+"---"+"</td>")
@@ -72,7 +87,10 @@
 
               $(".listTable").append(row);
             });
-          $('<div class="alert alert-success"><strong>Success! </strong>File deleted!</div>').insertAfter(".header");
+         // $(".listTable .videos").colorbox({ inframe: true, width:'600px', height:'400px' });
+
+            $(".listTable .gallery").colorbox({photo:true});
+          $('<div class="alert alert-success"><strong>Success! </strong>Successfully downloaded files!</div>').insertAfter(".header");
           setTimeout(() => {
             $(".alert").remove();
           }, 3000);

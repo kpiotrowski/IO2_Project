@@ -20,7 +20,7 @@ namespace IO2P
                 nancyHost.Start();
                 Console.WriteLine("Web server running...");
                 DbaseMongo database = DbaseMongo.Instance;
-                database.showCollection("fileEntries");
+                database.showCollection("fileEntries2");
                 Console.ReadLine();
                 nancyHost.Stop();
             }
