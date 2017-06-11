@@ -90,11 +90,12 @@ namespace IO2P
         /// <param name="list">Lista do ktorej zostanie dodana kolekcja</param>
         /// <param name="name">Nazwa kolekcji</param>
         /// <param name="filter">filtr, domyslnie null</param>
-        public void getCollection<T>(List<T> list, string name, FilterDefinition<T> filter = null)
+        public void getCollection<T>(List<T> list, string name, FilterDefinition<T> filter = null,SortDefinition<T> sort = null)
         {
             if (filter == null) filter = FilterDefinition<T>.Empty;
             var collection = this.db.GetCollection<T>(name);
-            list.AddRange(collection.Find(filter).ToList());
+            if (sort == null) list.AddRange(collection.Find(filter).ToList());
+            else list.AddRange(collection.Find(filter).Sort(sort).ToList());
         }
 
         /// <summary>

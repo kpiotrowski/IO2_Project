@@ -12,6 +12,9 @@ namespace IO2P
 {
     class FileFilter
     {
+        public const string asc = "ASC";
+        public const string desc = "DESC";
+
         public string filterFileCollection(String fileType,Request request)
         {
             var builder = Builders<BsonDocument>.Filter;
@@ -40,6 +43,23 @@ namespace IO2P
             //Console.WriteLine(list.ToJson());
             var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
             return list.ToJson(jsonWriterSettings);
+        }
+
+        public SortDefinition<BsonDocument> sortList(SortDefinition<BsonDocument> sort, String[][] sortingList, int i)
+        {
+            if (sortingList.Length <= i) return sort;
+            else if (sortingList[i].Length < 3) return null;
+            else if (String.IsNullOrEmpty(sortingList[i][0]) || String.IsNullOrEmpty(sortingList[i][1])) return null;
+            else if (FileFilter.asc.Equals(sortingList[i][1])){
+                sort.Ascending(sortingList[i][0]);
+                return sortList(sort, sortingList, i++);
+            }
+            else if (FileFilter.desc.Equals(sortingList[i][1]))
+            {
+                sort.Descending(sortingList[i][0]);
+                return sortList(sort, sortingList, i++);
+            }
+            else return null;
         }
     }
 }
