@@ -163,7 +163,7 @@
               row.append("<td>"+itemData.fileType+"</td>")
               row.append("<td>"+"---"+"</td>")
               row.append("<td>"+itemData.date+"</td>")
-              row.append("<td>"+"<button class='btn btn-default'>Edytuj</button>"+"<button onclick='deleteItem($(this))' class='btn btn-danger del-btn'>Usuń</button>"+"</td>");
+              row.append("<td>"+"<a href='/editfile/"+itemData._id.$oid+"?category="+itemData.category+"&filename="+itemData.filename+"'><button class='btn btn-default'>Edytuj</button></a>"+"<button onclick='deleteItem($(this))' class='btn btn-danger del-btn'>Usuń</button>"+"</td>");
 
               $(".listTable").append(row);
             });

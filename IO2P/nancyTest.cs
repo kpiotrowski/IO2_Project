@@ -65,11 +65,15 @@ namespace IO2P
             //     new resourceDeleter().handleRequest(this.Request);
             //    return true;
             // };
-            Put["/editfile/{id}"] = x =>
+            Post["/editfile/{id}"] = x =>
             {
-                return new resourceEditer().handleRequest(this.Request, x.id);
+                new resourceEditer().handleRequest(this.Request, x.id);
+                return View["front/index.cshtml"];
             };
-            Get["/editfile"] = _ => View["front/editform.cshtml"];
+            Get["/editfile/{id}"] = x => {
+               return View["front/editfile.cshtml"];
+            };
+
             Post["/newfile"] = _ => new resourceAdder(new resourceDeleter()).handlePost(this.Request);
             Post["/newfile"] = _ =>
             {
