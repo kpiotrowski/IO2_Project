@@ -9,8 +9,10 @@
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
 <tr><td><a href="BrowsingImages.html">BrowsingImages</a></td></tr>
-<tr><td><a href="BrowsingAudio.html">BrowsingAudio</a></td></tr>
 <tr><td><a href="BrowsingVideo.html">BrowsingVideo</a></td></tr>
+<tr><td><a href="BrowsingAudio.html">BrowsingAudio</a></td></tr>
+<tr><td><a href="EditImage.html">EditImage</a></td></tr>
+<tr><td><a href="EditVideo.html">EditVideo</a></td></tr>
 </tbody></table>
 </body>
 </html>
