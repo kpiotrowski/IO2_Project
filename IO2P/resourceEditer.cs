@@ -25,15 +25,15 @@ namespace IO2P
 
             IMongoCollection<fileEntry> collection = DbaseMongo.Instance.db.GetCollection<fileEntry>(DbaseMongo.DefaultCollection);
             FilterDefinition<fileEntry> filter = new BsonDocument("_id", ObjectId.Parse(fileId));
-            UpdateDefinition<fileEntry> update;
-            if (String.IsNullOrWhiteSpace(category)) update = new JsonUpdateDefinition<fileEntry>(new BsonDocument("filename", filename).ToString());
-            else if (String.IsNullOrWhiteSpace(filename)) update = new JsonUpdateDefinition<fileEntry>(new BsonDocument("category", category).ToString());
+            UpdateDefinition<fileEntry> update = null;
+            if (String.IsNullOrWhiteSpace(category)) update = Builders<fileEntry>.Update.Set(fileEntry.DBfileName, filename).CurrentDate("lastModified");
+            else if (String.IsNullOrWhiteSpace(filename)) update = Builders<fileEntry>.Update.Set(fileEntry.DBcategory, category).CurrentDate("lastModified");
             else
             {
                 Dictionary<string, string> dict = new Dictionary<string, string>();
                 dict.Add("filename", filename);
                 dict.Add("category", category);
-                update = new JsonUpdateDefinition<fileEntry>(new BsonDocument(dict).ToString());
+                update = Builders<fileEntry>.Update.Set(fileEntry.DBfileName, filename).Set(fileEntry.DBcategory, category).CurrentDate("lastModified");
             }
             collection.FindOneAndUpdate<fileEntry>(filter, update);
         }

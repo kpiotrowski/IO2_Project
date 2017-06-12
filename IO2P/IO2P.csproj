@@ -183,22 +183,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="front\css\bootstrap-theme.css.map" />
-    <None Include="front\css\bootstrap-theme.min.css.map" />
-    <None Include="front\css\bootstrap.css.map" />
-    <None Include="front\css\bootstrap.min.css.map" />
-    <None Include="front\editform.cshtml" />
-    <None Include="front\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="front\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="front\fonts\glyphicons-halflings-regular.woff" />
-    <None Include="front\fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="front\index.cshtml" />
-    <None Include="front\mainWrapper.cshtml" />
-    <None Include="front\myaudio.cshtml" />
-    <None Include="front\myfiles.cshtml" />
-    <None Include="front\myimages.cshtml" />
-    <None Include="front\myvideo.cshtml" />
-    <None Include="front\upload.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +207,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
